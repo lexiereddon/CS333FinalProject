@@ -1,0 +1,3053 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.17 (Homebrew)
+-- Dumped by pg_dump version 17.0
+
+-- Started on 2025-05-05 23:08:04 PDT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 213 (class 1259 OID 41000)
+-- Name: agentpickrates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.agentpickrates (
+    map character varying NOT NULL,
+    agent character varying NOT NULL,
+    pick_rate real
+);
+
+
+--
+-- TOC entry 214 (class 1259 OID 49178)
+-- Name: communityvotes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.communityvotes (
+    user_id bigint NOT NULL,
+    most_unlucky character varying,
+    most_toxic_team character varying,
+    most_tryhard_team character varying
+);
+
+
+--
+-- TOC entry 212 (class 1259 OID 40993)
+-- Name: mapstats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mapstats (
+    map character varying NOT NULL,
+    "totalPicks" integer,
+    "groupD" integer,
+    "groupC" integer,
+    "groupB" integer,
+    "groupA" integer,
+    playoffs integer,
+    atk_wins integer,
+    def_wins integer
+);
+
+
+--
+-- TOC entry 209 (class 1259 OID 32787)
+-- Name: matches; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.matches (
+    match_id integer,
+    game_id integer NOT NULL,
+    team character varying NOT NULL,
+    score_team integer,
+    opponent character varying,
+    score_opp integer,
+    win_lose character varying,
+    map character varying,
+    map_pick character varying
+);
+
+
+--
+-- TOC entry 211 (class 1259 OID 40986)
+-- Name: players; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.players (
+    player character varying NOT NULL,
+    team character varying,
+    nationality character varying,
+    role character varying
+);
+
+
+--
+-- TOC entry 210 (class 1259 OID 32813)
+-- Name: playerstats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.playerstats (
+    game_id integer NOT NULL,
+    player_id integer NOT NULL,
+    player character varying,
+    agent character varying,
+    acs integer,
+    kill integer,
+    death integer,
+    assist integer
+);
+
+
+--
+-- TOC entry 216 (class 1259 OID 57371)
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username character varying(50) NOT NULL,
+    password character varying(255) NOT NULL
+);
+
+
+--
+-- TOC entry 215 (class 1259 OID 57370)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 3691 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 3522 (class 2604 OID 57374)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 3682 (class 0 OID 41000)
+-- Dependencies: 213
+-- Data for Name: agentpickrates; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.agentpickrates (map, agent, pick_rate) FROM stdin;
+All Maps	omen	0.67
+All Maps	skye	0.58
+All Maps	raze	0.58
+All Maps	breach	0.58
+All Maps	killjoy	0.58
+All Maps	jett	0.42
+All Maps	viper	0.33
+All Maps	sova	0.25
+All Maps	astra	0.17
+All Maps	brimstone	0.17
+All Maps	cypher	0.17
+All Maps	fade	0.17
+All Maps	sage	0.08
+All Maps	kayo	0.08
+All Maps	yoru	0.08
+All Maps	harbor	0.08
+All Maps	neon	0
+All Maps	phoenix	0
+All Maps	iso	0
+All Maps	reyna	0
+All Maps	gekko	0
+All Maps	deadlock	0
+All Maps	chamber	0
+Haven	omen	1
+Haven	skye	0.25
+Haven	raze	0.5
+Haven	breach	0.75
+Haven	killjoy	0.75
+Haven	jett	0.5
+Haven	viper	0.25
+Haven	sova	0.5
+Haven	astra	0
+Haven	brimstone	0
+Haven	cypher	0
+Haven	fade	0.25
+Haven	sage	0
+Haven	kayo	0
+Haven	yoru	0
+Haven	harbor	0.25
+Haven	neon	0
+Haven	phoenix	0
+Haven	iso	0
+Haven	reyna	0
+Haven	gekko	0
+Haven	deadlock	0
+Haven	chamber	0
+Bind	omen	0.5
+Bind	skye	1
+Bind	raze	1
+Bind	breach	0.5
+Bind	killjoy	0
+Bind	jett	0
+Bind	viper	1
+Bind	sova	0
+Bind	astra	0
+Bind	brimstone	0.5
+Bind	cypher	0
+Bind	fade	0
+Bind	sage	0.5
+Bind	kayo	0
+Bind	yoru	0
+Bind	harbor	0
+Bind	neon	0
+Bind	phoenix	0
+Bind	iso	0
+Bind	reyna	0
+Bind	gekko	0
+Bind	deadlock	0
+Bind	chamber	0
+Fracture	omen	0.5
+Fracture	skye	1
+Fracture	raze	1
+Fracture	breach	0.5
+Fracture	killjoy	0
+Fracture	jett	0
+Fracture	viper	0.5
+Fracture	sova	0
+Fracture	astra	0
+Fracture	brimstone	0.5
+Fracture	cypher	1
+Fracture	fade	0
+Fracture	sage	0
+Fracture	kayo	0
+Fracture	yoru	0
+Fracture	harbor	0
+Fracture	neon	0
+Fracture	phoenix	0
+Fracture	iso	0
+Fracture	reyna	0
+Fracture	gekko	0
+Fracture	deadlock	0
+Fracture	chamber	0
+Lotus	omen	1
+Lotus	skye	0.5
+Lotus	raze	0.5
+Lotus	breach	1
+Lotus	killjoy	1
+Lotus	jett	0.5
+Lotus	viper	0
+Lotus	sova	0.5
+Lotus	astra	0
+Lotus	brimstone	0
+Lotus	cypher	0
+Lotus	fade	0
+Lotus	sage	0
+Lotus	kayo	0
+Lotus	yoru	0
+Lotus	harbor	0
+Lotus	neon	0
+Lotus	phoenix	0
+Lotus	iso	0
+Lotus	reyna	0
+Lotus	gekko	0
+Lotus	deadlock	0
+Lotus	chamber	0
+Pearl	omen	0
+Pearl	skye	0.5
+Pearl	raze	0
+Pearl	breach	0
+Pearl	killjoy	1
+Pearl	jett	1
+Pearl	viper	0
+Pearl	sova	0
+Pearl	astra	1
+Pearl	brimstone	0
+Pearl	cypher	0
+Pearl	fade	0.5
+Pearl	sage	0
+Pearl	kayo	0.5
+Pearl	yoru	0.5
+Pearl	harbor	0
+Pearl	neon	0
+Pearl	phoenix	0
+Pearl	iso	0
+Pearl	reyna	0
+Pearl	gekko	0
+Pearl	deadlock	0
+Pearl	chamber	0
+Split	skye	0.75
+Split	raze	1
+Split	cypher	0.75
+Split	astra	0.25
+Split	breach	0.5
+Split	omen	0.75
+Split	viper	0.25
+Split	sova	0
+Split	jett	0.25
+Split	killjoy	0
+Split	brimstone	0
+Split	fade	0.25
+Split	harbor	0
+Split	sage	0.25
+Split	neon	0
+Split	phoenix	0
+Split	kayo	0
+Split	reyna	0
+Split	iso	0
+Split	gekko	0
+Split	deadlock	0
+Split	chamber	0
+Split	yoru	0
+Ascent	sova	0.5
+Ascent	killjoy	0.5
+Ascent	omen	1
+Ascent	breach	0.5
+Ascent	astra	0
+Ascent	jett	0.5
+Ascent	raze	0.5
+Ascent	kayo	0.5
+Ascent	harbor	0
+Ascent	fade	0.5
+Ascent	neon	0
+Ascent	cypher	0
+Ascent	phoenix	0
+Ascent	sage	0.5
+Ascent	skye	0
+Ascent	brimstone	0
+Ascent	iso	0
+Ascent	gekko	0
+Ascent	deadlock	0
+Ascent	chamber	0
+Ascent	reyna	0
+Ascent	viper	0
+Ascent	yoru	0
+\.
+
+
+--
+-- TOC entry 3683 (class 0 OID 49178)
+-- Dependencies: 214
+-- Data for Name: communityvotes; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.communityvotes (user_id, most_unlucky, most_toxic_team, most_tryhard_team) FROM stdin;
+7028771500	Leo	LOUD	FNATIC
+7752213838	Leo	LOUD	DRX
+1	afa	afa	efe
+\.
+
+
+--
+-- TOC entry 3681 (class 0 OID 40993)
+-- Dependencies: 212
+-- Data for Name: mapstats; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.mapstats (map, "totalPicks", "groupD", "groupC", "groupB", "groupA", playoffs, atk_wins, def_wins) FROM stdin;
+Ascent	16	2	4	1	1	8	145	138
+Bind	19	3	4	2	3	7	157	183
+Fracture	5	1	0	1	2	1	51	53
+Haven	12	1	2	3	0	6	107	109
+Lotus	16	3	1	4	2	6	151	123
+Pearl	16	1	4	1	3	7	149	151
+Split	22	4	0	3	4	11	178	138
+\.
+
+
+--
+-- TOC entry 3678 (class 0 OID 32787)
+-- Dependencies: 209
+-- Data for Name: matches; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.matches (match_id, game_id, team, score_team, opponent, score_opp, win_lose, map, map_pick) FROM stdin;
+53658	119512	ZETA	5	DRX	13	opponent win	Ascent	opponent pick
+53658	119512	DRX	13	ZETA	5	team win	Ascent	team pick
+53658	119513	ZETA	5	DRX	13	opponent win	Pearl	team pick
+53658	119513	DRX	13	ZETA	5	team win	Pearl	opponent pick
+53659	119515	T1	13	GE	8	team win	Pearl	opponent pick
+53659	119515	GE	8	T1	13	opponent win	Pearl	team pick
+53659	119516	T1	4	GE	13	opponent win	Haven	team pick
+53659	119516	GE	13	T1	4	team win	Haven	opponent pick
+53659	119517	T1	13	GE	7	team win	Lotus	opponent pick
+53659	119517	GE	7	T1	13	opponent win	Lotus	opponent pick
+53660	119518	PRX	13	DFM	5	team win	Pearl	team pick
+53660	119518	DFM	5	PRX	13	opponent win	Pearl	opponent pick
+53660	119519	PRX	13	DFM	11	team win	Lotus	opponent pick
+53660	119519	DFM	11	PRX	13	opponent win	Lotus	team pick
+53661	119521	TS	13	TLN	5	team win	Ascent	opponent pick
+53661	119521	TLN	5	TS	13	opponent win	Ascent	team pick
+53661	119522	TS	8	TLN	13	opponent win	Icebox	team pick
+53661	119522	TLN	13	TS	8	team win	Icebox	opponent pick
+53661	119523	TS	13	TLN	3	team win	Fracture	opponent pick
+53661	119523	TLN	3	TS	13	opponent win	Fracture	opponent pick
+53662	119524	RRQ	9	GEN	13	opponent win	Fracture	opponent pick
+53662	119524	GEN	13	RRQ	9	team win	Fracture	team pick
+53662	119525	RRQ	6	GEN	13	opponent win	Lotus	team pick
+53662	119525	GEN	13	RRQ	6	team win	Lotus	opponent pick
+53663	119527	ZETA	10	RRQ	13	opponent win	Haven	team pick
+53663	119527	RRQ	13	ZETA	10	team win	Haven	opponent pick
+53663	119528	ZETA	13	RRQ	10	team win	Ascent	opponent pick
+53663	119528	RRQ	10	ZETA	13	opponent win	Ascent	team pick
+53663	119529	ZETA	13	RRQ	5	team win	Lotus	opponent pick
+53663	119529	RRQ	5	ZETA	13	opponent win	Lotus	opponent pick
+53664	119530	TLN	8	T1	13	opponent win	Ascent	opponent pick
+53664	119530	T1	13	TLN	8	team win	Ascent	team pick
+53664	119531	TLN	6	T1	13	opponent win	Haven	team pick
+53664	119531	T1	13	TLN	6	team win	Haven	opponent pick
+53665	119533	TS	11	PRX	13	opponent win	Haven	team pick
+53665	119533	PRX	13	TS	11	team win	Haven	opponent pick
+53665	119534	TS	13	PRX	11	team win	Fracture	opponent pick
+53665	119534	PRX	11	TS	13	opponent win	Fracture	team pick
+53665	119535	TS	13	PRX	10	team win	Split	opponent pick
+53665	119535	PRX	10	TS	13	opponent win	Split	opponent pick
+53666	119536	GEN	13	DFM	8	team win	Lotus	opponent pick
+53666	119536	DFM	8	GEN	13	opponent win	Lotus	team pick
+53666	119537	GEN	4	DFM	13	opponent win	Fracture	team pick
+53666	119537	DFM	13	GEN	4	team win	Fracture	opponent pick
+53666	119538	GEN	13	DFM	8	team win	Pearl	opponent pick
+53666	119538	DFM	8	GEN	13	opponent win	Pearl	opponent pick
+53667	119539	GE	11	DRX	13	opponent win	Haven	opponent pick
+53667	119539	DRX	13	GE	11	team win	Haven	team pick
+53667	119540	GE	15	DRX	17	opponent win	Split	team pick
+53667	119540	DRX	17	GE	15	team win	Split	opponent pick
+53668	119542	RRQ	13	DFM	4	team win	Haven	team pick
+53668	119542	DFM	4	RRQ	13	opponent win	Haven	opponent pick
+53668	119543	RRQ	13	DFM	7	team win	Pearl	opponent pick
+53668	119543	DFM	7	RRQ	13	opponent win	Pearl	team pick
+53669	119545	T1	3	PRX	13	opponent win	Pearl	team pick
+53669	119545	PRX	13	T1	3	team win	Pearl	opponent pick
+53669	119546	T1	6	PRX	13	opponent win	Fracture	opponent pick
+53669	119546	PRX	13	T1	6	team win	Fracture	team pick
+53670	119548	ZETA	9	GE	13	opponent win	Pearl	opponent pick
+53670	119548	GE	13	ZETA	9	team win	Pearl	team pick
+53670	119549	ZETA	14	GE	12	team win	Ascent	team pick
+53670	119549	GE	12	ZETA	14	opponent win	Ascent	opponent pick
+53670	119550	ZETA	13	GE	8	team win	Haven	opponent pick
+53670	119550	GE	8	ZETA	13	opponent win	Haven	opponent pick
+53671	119551	TLN	3	DRX	13	opponent win	Split	team pick
+53671	119551	DRX	13	TLN	3	team win	Split	opponent pick
+53671	119552	TLN	10	DRX	13	opponent win	Pearl	opponent pick
+53671	119552	DRX	13	TLN	10	team win	Pearl	team pick
+53672	119554	TS	8	GEN	13	opponent win	Haven	opponent pick
+53672	119554	GEN	13	TS	8	team win	Haven	team pick
+53672	119555	TS	11	GEN	13	opponent win	Fracture	team pick
+53672	119555	GEN	13	TS	11	team win	Fracture	opponent pick
+53673	119557	PRX	5	DRX	13	opponent win	Ascent	opponent pick
+53673	119557	DRX	13	PRX	5	team win	Ascent	team pick
+53673	119558	PRX	10	DRX	13	opponent win	Split	team pick
+53673	119558	DRX	13	PRX	10	team win	Split	opponent pick
+53674	119560	TS	10	RRQ	13	opponent win	Icebox	team pick
+53674	119560	RRQ	13	TS	10	team win	Icebox	opponent pick
+53674	119561	TS	7	RRQ	13	opponent win	Split	opponent pick
+53674	119561	RRQ	13	TS	7	team win	Split	team pick
+53675	119563	T1	5	GEN	13	opponent win	Ascent	team pick
+53675	119563	GEN	13	T1	5	team win	Ascent	opponent pick
+53675	119564	T1	5	GEN	13	opponent win	Haven	opponent pick
+53675	119564	GEN	13	T1	5	team win	Haven	team pick
+53676	119566	ZETA	13	DFM	9	team win	Ascent	team pick
+53676	119566	DFM	9	ZETA	13	opponent win	Ascent	opponent pick
+53676	119567	ZETA	13	DFM	5	team win	Haven	opponent pick
+53676	119567	DFM	5	ZETA	13	opponent win	Haven	team pick
+53677	119569	TLN	6	GE	13	opponent win	Split	opponent pick
+53677	119569	GE	13	TLN	6	team win	Split	team pick
+53677	119570	TLN	11	GE	13	opponent win	Icebox	team pick
+53677	119570	GE	13	TLN	11	team win	Icebox	opponent pick
+53678	119572	PRX	7	GE	13	opponent win	Icebox	team pick
+53678	119572	GE	13	PRX	7	team win	Icebox	opponent pick
+53678	119573	PRX	13	GE	6	team win	Split	opponent pick
+53678	119573	GE	6	PRX	13	opponent win	Split	team pick
+53678	119574	PRX	13	GE	7	team win	Pearl	opponent pick
+53678	119574	GE	7	PRX	13	opponent win	Pearl	opponent pick
+53679	119575	GEN	7	DRX	13	opponent win	Haven	team pick
+53679	119575	DRX	13	GEN	7	team win	Haven	opponent pick
+53679	119576	GEN	13	DRX	10	team win	Fracture	opponent pick
+53679	119576	DRX	10	GEN	13	opponent win	Fracture	team pick
+53679	119577	GEN	4	DRX	13	opponent win	Pearl	opponent pick
+53679	119577	DRX	13	GEN	4	team win	Pearl	opponent pick
+53680	119578	T1	13	RRQ	9	team win	Haven	opponent pick
+53680	119578	RRQ	9	T1	13	opponent win	Haven	team pick
+53680	119579	T1	13	RRQ	4	team win	Fracture	team pick
+53680	119579	RRQ	4	T1	13	opponent win	Fracture	opponent pick
+53681	119581	TS	13	DFM	11	team win	Ascent	opponent pick
+53681	119581	DFM	11	TS	13	opponent win	Ascent	team pick
+53681	119582	TS	13	DFM	8	team win	Haven	team pick
+53681	119582	DFM	8	TS	13	opponent win	Haven	opponent pick
+53682	119584	ZETA	8	TLN	13	opponent win	Haven	opponent pick
+53682	119584	TLN	13	ZETA	8	team win	Haven	team pick
+53682	119585	ZETA	14	TLN	16	opponent win	Ascent	team pick
+53682	119585	TLN	16	ZETA	14	team win	Ascent	opponent pick
+53683	119587	T1	13	DFM	9	team win	Lotus	team pick
+53683	119587	DFM	9	T1	13	opponent win	Lotus	opponent pick
+53683	119588	T1	9	DFM	13	opponent win	Split	opponent pick
+53683	119588	DFM	13	T1	9	team win	Split	team pick
+53683	119589	T1	13	DFM	10	team win	Fracture	opponent pick
+53683	119589	DFM	10	T1	13	opponent win	Fracture	opponent pick
+53684	119590	ZETA	13	TS	9	team win	Split	team pick
+53684	119590	TS	9	ZETA	13	opponent win	Split	opponent pick
+53684	119591	ZETA	10	TS	13	opponent win	Lotus	opponent pick
+53684	119591	TS	13	ZETA	10	team win	Lotus	team pick
+53684	119592	ZETA	13	TS	9	team win	Fracture	opponent pick
+53684	119592	TS	9	ZETA	13	opponent win	Fracture	opponent pick
+53685	119593	GE	13	GEN	8	team win	Pearl	team pick
+53685	119593	GEN	8	GE	13	opponent win	Pearl	opponent pick
+53685	119594	GE	13	GEN	8	team win	Lotus	opponent pick
+53685	119594	GEN	8	GE	13	opponent win	Lotus	team pick
+53686	119596	RRQ	13	DRX	8	team win	Haven	opponent pick
+53686	119596	DRX	8	RRQ	13	opponent win	Haven	team pick
+53686	119597	RRQ	10	DRX	13	opponent win	Split	team pick
+53686	119597	DRX	13	RRQ	10	team win	Split	opponent pick
+53686	119598	RRQ	2	DRX	13	opponent win	Pearl	opponent pick
+53686	119598	DRX	13	RRQ	2	team win	Pearl	opponent pick
+53687	119599	TLN	13	PRX	11	team win	Pearl	team pick
+53687	119599	PRX	11	TLN	13	opponent win	Pearl	opponent pick
+53687	119600	TLN	4	PRX	13	opponent win	Split	opponent pick
+53687	119600	PRX	13	TLN	4	team win	Split	team pick
+53687	119601	TLN	10	PRX	13	opponent win	Fracture	opponent pick
+53687	119601	PRX	13	TLN	10	team win	Fracture	opponent pick
+53688	119602	TLN	13	GEN	8	team win	Fracture	opponent pick
+53688	119602	GEN	8	TLN	13	opponent win	Fracture	team pick
+53688	119603	TLN	13	GEN	7	team win	Lotus	team pick
+53688	119603	GEN	7	TLN	13	opponent win	Lotus	opponent pick
+53689	119605	ZETA	6	PRX	13	opponent win	Split	opponent pick
+53689	119605	PRX	13	ZETA	6	team win	Split	team pick
+53689	119606	ZETA	10	PRX	13	opponent win	Ascent	team pick
+53689	119606	PRX	13	ZETA	10	team win	Ascent	opponent pick
+53690	119608	RRQ	13	GE	10	team win	Fracture	team pick
+53690	119608	GE	10	RRQ	13	opponent win	Fracture	opponent pick
+53690	119609	RRQ	13	GE	11	team win	Pearl	opponent pick
+53690	119609	GE	11	RRQ	13	opponent win	Pearl	team pick
+53691	119611	TS	4	T1	13	opponent win	Lotus	team pick
+53691	119611	T1	13	TS	4	team win	Lotus	opponent pick
+53691	119612	TS	8	T1	13	opponent win	Bind	opponent pick
+53691	119612	T1	13	TS	8	team win	Bind	team pick
+53692	119614	DRX	13	DFM	8	team win	Fracture	opponent pick
+53692	119614	DFM	8	DRX	13	opponent win	Fracture	team pick
+53692	119615	DRX	13	DFM	4	team win	Ascent	team pick
+53692	119615	DFM	4	DRX	13	opponent win	Ascent	opponent pick
+53693	119617	PRX	13	GEN	7	team win	Split	team pick
+53693	119617	GEN	7	PRX	13	opponent win	Split	opponent pick
+53693	119618	PRX	13	GEN	2	team win	Ascent	opponent pick
+53693	119618	GEN	2	PRX	13	opponent win	Ascent	team pick
+53694	119620	ZETA	11	T1	13	opponent win	Fracture	team pick
+53694	119620	T1	13	ZETA	11	team win	Fracture	opponent pick
+53694	119621	ZETA	13	T1	10	team win	Lotus	opponent pick
+53694	119621	T1	10	ZETA	13	opponent win	Lotus	team pick
+53694	119622	ZETA	3	T1	13	opponent win	Bind	opponent pick
+53694	119622	T1	13	ZETA	3	team win	Bind	opponent pick
+53695	119623	TS	13	DRX	8	team win	Haven	team pick
+53695	119623	DRX	8	TS	13	opponent win	Haven	opponent pick
+53695	119624	TS	13	DRX	11	team win	Ascent	opponent pick
+53695	119624	DRX	11	TS	13	opponent win	Ascent	team pick
+53696	119626	GE	13	DFM	7	team win	Lotus	opponent pick
+53696	119626	DFM	7	GE	13	opponent win	Lotus	team pick
+53696	119627	GE	13	DFM	6	team win	Pearl	team pick
+53696	119627	DFM	6	GE	13	opponent win	Pearl	opponent pick
+53697	119629	TLN	13	RRQ	3	team win	Split	opponent pick
+53697	119629	RRQ	3	TLN	13	opponent win	Split	team pick
+53697	119630	TLN	4	RRQ	13	opponent win	Ascent	team pick
+53697	119630	RRQ	13	TLN	4	team win	Ascent	opponent pick
+53697	119631	TLN	7	RRQ	13	opponent win	Haven	opponent pick
+53697	119631	RRQ	13	TLN	7	team win	Haven	opponent pick
+53698	119632	ZETA	13	GEN	8	team win	Haven	opponent pick
+53698	119632	GEN	8	ZETA	13	opponent win	Haven	team pick
+53698	119633	ZETA	4	GEN	13	opponent win	Ascent	team pick
+53698	119633	GEN	13	ZETA	4	team win	Ascent	opponent pick
+53698	119634	ZETA	13	GEN	4	team win	Fracture	opponent pick
+53698	119634	GEN	4	ZETA	13	opponent win	Fracture	opponent pick
+53699	119635	T1	10	DRX	13	opponent win	Bind	team pick
+53699	119635	DRX	13	T1	10	team win	Bind	opponent pick
+53699	119636	T1	9	DRX	13	opponent win	Pearl	opponent pick
+53699	119636	DRX	13	T1	9	team win	Pearl	team pick
+53700	119638	TS	13	GE	9	team win	Haven	team pick
+53700	119638	GE	9	TS	13	opponent win	Haven	opponent pick
+53700	119639	TS	13	GE	10	team win	Lotus	opponent pick
+53700	119639	GE	10	TS	13	opponent win	Lotus	team pick
+53701	119641	TLN	13	DFM	11	team win	Lotus	team pick
+53701	119641	DFM	11	TLN	13	opponent win	Lotus	opponent pick
+53701	119642	TLN	13	DFM	4	team win	Bind	opponent pick
+53701	119642	DFM	4	TLN	13	opponent win	Bind	team pick
+53702	119644	RRQ	9	PRX	13	opponent win	Bind	team pick
+53702	119644	PRX	13	RRQ	9	team win	Bind	opponent pick
+53702	119645	RRQ	11	PRX	13	opponent win	Pearl	opponent pick
+53702	119645	PRX	13	RRQ	11	team win	Pearl	team pick
+53713	119677	ZETA	13	TS	15	opponent win	Haven	opponent pick
+53713	119677	TS	15	ZETA	13	team win	Haven	team pick
+53713	119678	ZETA	12	TS	14	opponent win	Ascent	team pick
+53713	119678	TS	14	ZETA	12	team win	Ascent	opponent pick
+53714	119680	T1	13	GEN	8	team win	Fracture	team pick
+53714	119680	GEN	8	T1	13	opponent win	Fracture	opponent pick
+53714	119681	T1	11	GEN	13	opponent win	Ascent	opponent pick
+53714	119681	GEN	13	T1	11	team win	Ascent	team pick
+53714	119682	T1	13	GEN	7	team win	Lotus	opponent pick
+53714	119682	GEN	7	T1	13	opponent win	Lotus	opponent pick
+53715	119683	DRX	9	TS	13	opponent win	Haven	opponent pick
+53715	119683	TS	13	DRX	9	team win	Haven	team pick
+53715	119684	DRX	13	TS	5	team win	Split	team pick
+53715	119684	TS	5	DRX	13	opponent win	Split	opponent pick
+53715	119685	DRX	13	TS	4	team win	Bind	opponent pick
+53715	119685	TS	4	DRX	13	opponent win	Bind	opponent pick
+53716	119686	PRX	13	T1	10	team win	Lotus	opponent pick
+53716	119686	T1	10	PRX	13	opponent win	Lotus	team pick
+53716	119687	PRX	13	T1	10	team win	Fracture	team pick
+53716	119687	T1	10	PRX	13	opponent win	Fracture	opponent pick
+53718	119692	TS	13	GEN	8	team win	Ascent	opponent pick
+53718	119692	GEN	8	TS	13	opponent win	Ascent	team pick
+53718	119693	TS	8	GEN	13	opponent win	Haven	team pick
+53718	119693	GEN	13	TS	8	team win	Haven	opponent pick
+53718	119694	TS	12	GEN	14	opponent win	Split	opponent pick
+53718	119694	GEN	14	TS	12	team win	Split	opponent pick
+53717	119689	T1	13	ZETA	10	team win	Haven	opponent pick
+53717	119689	ZETA	10	T1	13	opponent win	Haven	team pick
+53717	119690	T1	12	ZETA	14	opponent win	Bind	team pick
+53717	119690	ZETA	14	T1	12	team win	Bind	opponent pick
+53717	119691	T1	13	ZETA	10	team win	Fracture	opponent pick
+53717	119691	ZETA	10	T1	13	opponent win	Fracture	opponent pick
+53719	119695	DRX	5	PRX	13	opponent win	Fracture	opponent pick
+53719	119695	PRX	13	DRX	5	team win	Fracture	team pick
+53719	119696	DRX	6	PRX	13	opponent win	Bind	team pick
+53719	119696	PRX	13	DRX	6	team win	Bind	opponent pick
+53720	119698	T1	13	GEN	10	team win	Fracture	team pick
+53720	119698	GEN	10	T1	13	opponent win	Fracture	opponent pick
+53720	119699	T1	13	GEN	10	team win	Ascent	opponent pick
+53720	119699	GEN	10	T1	13	opponent win	Ascent	team pick
+58569	131114	BNY	13	SPB	6	team win	Bind	opponent pick
+58569	131114	SPB	6	BNY	13	opponent win	Bind	opponent pick
+53721	119701	DRX	11	T1	13	opponent win	Ascent	team pick
+53721	119701	T1	13	DRX	11	team win	Ascent	opponent pick
+53721	119702	DRX	13	T1	11	team win	Fracture	opponent pick
+53721	119702	T1	11	DRX	13	opponent win	Fracture	team pick
+53721	119703	DRX	13	T1	11	team win	Haven	team pick
+53721	119703	T1	11	DRX	13	opponent win	Haven	opponent pick
+53721	119704	DRX	6	T1	13	opponent win	Bind	opponent pick
+53721	119704	T1	13	DRX	6	team win	Bind	team pick
+53721	119705	DRX	13	T1	9	team win	Pearl	opponent pick
+53721	119705	T1	9	DRX	13	opponent win	Pearl	opponent pick
+53722	119706	PRX	6	DRX	13	opponent win	Fracture	team pick
+53722	119706	DRX	13	PRX	6	team win	Fracture	opponent pick
+53722	119708	PRX	14	DRX	16	opponent win	Ascent	opponent pick
+53722	119708	DRX	16	PRX	14	team win	Ascent	team pick
+53722	119712	PRX	13	DRX	8	team win	Pearl	opponent pick
+53722	119712	DRX	8	PRX	13	opponent win	Pearl	team pick
+53722	119714	PRX	13	DRX	6	team win	Bind	opponent pick
+53722	119714	DRX	6	PRX	13	opponent win	Bind	opponent pick
+53722	131784	PRX	13	DRX	3	team win	Lotus	team pick
+53722	131784	DRX	3	PRX	13	opponent win	Lotus	opponent pick
+52769	117164	KOI	13	NAVI	7	team win	Ascent	opponent pick
+52769	117164	NAVI	7	KOI	13	opponent win	Ascent	team pick
+52769	117165	KOI	20	NAVI	18	team win	Lotus	team pick
+52769	117165	NAVI	18	KOI	20	opponent win	Lotus	opponent pick
+52768	117161	FNC	13	GIA	3	team win	Icebox	team pick
+52768	117161	GIA	3	FNC	13	opponent win	Icebox	opponent pick
+52768	117162	FNC	13	GIA	11	team win	Split	opponent pick
+52768	117162	GIA	11	FNC	13	opponent win	Split	team pick
+52770	117167	TH	4	FUT	13	opponent win	Pearl	team pick
+52770	117167	FUT	13	TH	4	team win	Pearl	opponent pick
+52770	117168	TH	9	FUT	13	opponent win	Lotus	opponent pick
+52770	117168	FUT	13	TH	9	team win	Lotus	team pick
+52771	117170	TL	6	VIT	13	opponent win	Haven	opponent pick
+52771	117170	VIT	13	TL	6	team win	Haven	team pick
+52771	117171	TL	13	VIT	2	team win	Fracture	team pick
+52771	117171	VIT	2	TL	13	opponent win	Fracture	opponent pick
+52771	117172	TL	10	VIT	13	opponent win	Lotus	opponent pick
+52771	117172	VIT	13	TL	10	team win	Lotus	opponent pick
+52772	117173	NAVI	15	GIA	17	opponent win	Icebox	team pick
+52772	117173	GIA	17	NAVI	15	team win	Icebox	opponent pick
+52772	117174	NAVI	15	GIA	13	team win	Split	opponent pick
+52772	117174	GIA	13	NAVI	15	opponent win	Split	team pick
+52772	117175	NAVI	13	GIA	7	team win	Pearl	opponent pick
+52772	117175	GIA	7	NAVI	13	opponent win	Pearl	opponent pick
+52773	117176	KC	19	BBL	17	team win	Icebox	opponent pick
+52773	117176	BBL	17	KC	19	opponent win	Icebox	team pick
+52773	117177	KC	13	BBL	11	team win	Split	team pick
+52773	117177	BBL	11	KC	13	opponent win	Split	opponent pick
+52774	117179	TL	10	FUT	13	opponent win	Lotus	opponent pick
+52774	117179	FUT	13	TL	10	team win	Lotus	team pick
+52774	117180	TL	13	FUT	6	team win	Split	team pick
+52774	117180	FUT	6	TL	13	opponent win	Split	opponent pick
+52774	117181	TL	13	FUT	6	team win	Ascent	opponent pick
+52774	117181	FUT	6	TL	13	opponent win	Ascent	opponent pick
+52775	117182	KOI	9	VIT	13	opponent win	Split	opponent pick
+52775	117182	VIT	13	KOI	9	team win	Split	team pick
+52775	117183	KOI	13	VIT	15	opponent win	Fracture	team pick
+52775	117183	VIT	15	KOI	13	team win	Fracture	opponent pick
+52776	117185	FNC	6	BBL	13	opponent win	Ascent	opponent pick
+52776	117185	BBL	13	FNC	6	team win	Ascent	team pick
+52776	117186	FNC	13	BBL	9	team win	Haven	team pick
+52776	117186	BBL	9	FNC	13	opponent win	Haven	opponent pick
+52776	117187	FNC	13	BBL	11	team win	Split	opponent pick
+52776	117187	BBL	11	FNC	13	opponent win	Split	opponent pick
+52777	117188	TH	13	KC	5	team win	Icebox	team pick
+52777	117188	KC	5	TH	13	opponent win	Icebox	opponent pick
+52777	117189	TH	13	KC	2	team win	Split	opponent pick
+52777	117189	KC	2	TH	13	opponent win	Split	team pick
+53533	119187	VIT	4	FUT	13	opponent win	Lotus	opponent pick
+53533	119187	FUT	13	VIT	4	team win	Lotus	team pick
+53533	119188	VIT	10	FUT	13	opponent win	Haven	team pick
+53533	119188	FUT	13	VIT	10	team win	Haven	opponent pick
+53534	119190	NAVI	13	BBL	10	team win	Ascent	opponent pick
+53534	119190	BBL	10	NAVI	13	opponent win	Ascent	team pick
+53534	119191	NAVI	13	BBL	8	team win	Fracture	team pick
+53534	119191	BBL	8	NAVI	13	opponent win	Fracture	opponent pick
+53535	119193	FNC	13	TH	3	team win	Icebox	team pick
+53535	119193	TH	3	FNC	13	opponent win	Icebox	opponent pick
+53535	119194	FNC	13	TH	6	team win	Ascent	opponent pick
+53535	119194	TH	6	FNC	13	opponent win	Ascent	team pick
+53536	119196	TL	13	KC	5	team win	Ascent	team pick
+53536	119196	KC	5	TL	13	opponent win	Ascent	opponent pick
+53536	119197	TL	13	KC	2	team win	Split	opponent pick
+53536	119197	KC	2	TL	13	opponent win	Split	team pick
+53537	119199	KOI	1	GIA	13	opponent win	Lotus	opponent pick
+53537	119199	GIA	13	KOI	1	team win	Lotus	team pick
+53537	119200	KOI	11	GIA	13	opponent win	Ascent	team pick
+53537	119200	GIA	13	KOI	11	team win	Ascent	opponent pick
+53538	119202	NAVI	13	TH	3	team win	Pearl	team pick
+53538	119202	TH	3	NAVI	13	opponent win	Pearl	opponent pick
+53538	119203	NAVI	9	TH	13	opponent win	Lotus	opponent pick
+53538	119203	TH	13	NAVI	9	team win	Lotus	team pick
+53538	119204	NAVI	13	TH	2	team win	Ascent	opponent pick
+53538	119204	TH	2	NAVI	13	opponent win	Ascent	opponent pick
+53539	119206	KOI	9	FUT	13	opponent win	Ascent	team pick
+53539	119206	FUT	13	KOI	9	team win	Ascent	opponent pick
+53539	126175	KOI	6	FUT	13	opponent win	Icebox	opponent pick
+53539	126175	FUT	13	KOI	6	team win	Icebox	team pick
+53540	119208	TL	6	FNC	13	opponent win	Lotus	team pick
+53540	119208	FNC	13	TL	6	team win	Lotus	opponent pick
+53540	119209	TL	6	FNC	13	opponent win	Haven	opponent pick
+53540	119209	FNC	13	TL	6	team win	Haven	team pick
+53541	119211	GIA	13	BBL	10	team win	Icebox	opponent pick
+53541	119211	BBL	10	GIA	13	opponent win	Icebox	team pick
+53541	119212	GIA	13	BBL	3	team win	Split	team pick
+53541	119212	BBL	3	GIA	13	opponent win	Split	opponent pick
+53542	119214	VIT	13	KC	2	team win	Ascent	opponent pick
+53542	119214	KC	2	VIT	13	opponent win	Ascent	team pick
+53542	119215	VIT	13	KC	6	team win	Split	team pick
+53542	119215	KC	6	VIT	13	opponent win	Split	opponent pick
+53562	119246	TH	8	TL	13	opponent win	Split	opponent pick
+53562	119246	TL	13	TH	8	team win	Split	team pick
+53562	119247	TH	15	TL	17	opponent win	Fracture	team pick
+53562	119247	TL	17	TH	15	team win	Fracture	opponent pick
+53564	119252	FUT	5	GIA	13	opponent win	Icebox	team pick
+53564	119252	GIA	13	FUT	5	team win	Icebox	opponent pick
+53564	119253	FUT	11	GIA	13	opponent win	Split	opponent pick
+53564	119253	GIA	13	FUT	11	team win	Split	team pick
+53565	119255	KC	11	NAVI	13	opponent win	Ascent	opponent pick
+53565	119255	NAVI	13	KC	11	team win	Ascent	team pick
+53565	119256	KC	7	NAVI	13	opponent win	Lotus	team pick
+53565	119256	NAVI	13	KC	7	team win	Lotus	opponent pick
+53566	119258	BBL	13	VIT	8	team win	Ascent	team pick
+53566	119258	VIT	8	BBL	13	opponent win	Ascent	opponent pick
+53566	119259	BBL	13	VIT	9	team win	Haven	opponent pick
+53566	119259	VIT	9	BBL	13	opponent win	Haven	team pick
+53567	119261	GIA	13	TL	11	team win	Ascent	opponent pick
+53567	119261	TL	11	GIA	13	opponent win	Ascent	team pick
+53567	119262	GIA	11	TL	13	opponent win	Icebox	team pick
+53567	119262	TL	13	GIA	11	team win	Icebox	opponent pick
+53567	119263	GIA	10	TL	13	opponent win	Lotus	opponent pick
+53567	119263	TL	13	GIA	10	team win	Lotus	opponent pick
+53568	119264	BBL	14	TH	12	team win	Haven	team pick
+53568	119264	TH	12	BBL	14	opponent win	Haven	opponent pick
+53568	119265	BBL	10	TH	13	opponent win	Lotus	opponent pick
+53568	119265	TH	13	BBL	10	team win	Lotus	team pick
+53568	119266	BBL	13	TH	2	team win	Icebox	opponent pick
+53568	119266	TH	2	BBL	13	opponent win	Icebox	opponent pick
+53569	119267	KOI	6	KC	13	opponent win	Lotus	opponent pick
+53569	119267	KC	13	KOI	6	team win	Lotus	team pick
+53569	119268	KOI	13	KC	8	team win	Ascent	team pick
+53569	119268	KC	8	KOI	13	opponent win	Ascent	opponent pick
+53569	119269	KOI	11	KC	13	opponent win	Haven	opponent pick
+53569	119269	KC	13	KOI	11	team win	Haven	opponent pick
+53570	119270	FUT	5	FNC	13	opponent win	Icebox	opponent pick
+53570	119270	FNC	13	FUT	5	team win	Icebox	team pick
+53570	119271	FUT	5	FNC	13	opponent win	Lotus	team pick
+53570	119271	FNC	13	FUT	5	team win	Lotus	opponent pick
+53571	119273	VIT	10	NAVI	13	opponent win	Split	team pick
+53571	119273	NAVI	13	VIT	10	team win	Split	opponent pick
+53571	119274	VIT	10	NAVI	13	opponent win	Fracture	opponent pick
+53571	119274	NAVI	13	VIT	10	team win	Fracture	team pick
+53572	119276	VIT	12	FNC	14	opponent win	Haven	opponent pick
+53572	119276	FNC	14	VIT	12	team win	Haven	team pick
+53572	119277	VIT	8	FNC	13	opponent win	Bind	team pick
+53572	119277	FNC	13	VIT	8	team win	Bind	opponent pick
+53573	119279	FUT	13	KC	8	team win	Haven	team pick
+53573	119279	KC	8	FUT	13	opponent win	Haven	opponent pick
+53573	119280	FUT	13	KC	5	team win	Ascent	opponent pick
+53573	119280	KC	5	FUT	13	opponent win	Ascent	team pick
+53574	119282	KOI	13	BBL	3	team win	Pearl	team pick
+53574	119282	BBL	3	KOI	13	opponent win	Pearl	opponent pick
+53574	119283	KOI	4	BBL	13	opponent win	Ascent	opponent pick
+53574	119283	BBL	13	KOI	4	team win	Ascent	team pick
+53574	119284	KOI	5	BBL	13	opponent win	Bind	opponent pick
+53574	119284	BBL	13	KOI	5	team win	Bind	opponent pick
+53575	119285	NAVI	13	TL	11	team win	Fracture	team pick
+53575	119285	TL	11	NAVI	13	opponent win	Fracture	opponent pick
+53575	119286	NAVI	13	TL	11	team win	Bind	opponent pick
+53575	119286	TL	11	NAVI	13	opponent win	Bind	team pick
+53576	119288	GIA	9	TH	13	opponent win	Pearl	team pick
+53576	119288	TH	13	GIA	9	team win	Pearl	opponent pick
+53576	119289	GIA	14	TH	16	opponent win	Lotus	opponent pick
+53576	119289	TH	16	GIA	14	team win	Lotus	team pick
+53563	119249	KOI	4	FNC	13	opponent win	Lotus	opponent pick
+53563	119249	FNC	13	KOI	4	team win	Lotus	team pick
+53563	119250	KOI	9	FNC	13	opponent win	Ascent	team pick
+53563	119250	FNC	13	KOI	9	team win	Ascent	opponent pick
+53577	119291	GIA	13	VIT	6	team win	Lotus	team pick
+53577	119291	VIT	6	GIA	13	opponent win	Lotus	opponent pick
+53577	119292	GIA	10	VIT	13	opponent win	Split	opponent pick
+53577	119292	VIT	13	GIA	10	team win	Split	team pick
+53577	119293	GIA	13	VIT	10	team win	Ascent	opponent pick
+53577	119293	VIT	10	GIA	13	opponent win	Ascent	opponent pick
+53578	119294	FUT	9	NAVI	13	opponent win	Lotus	team pick
+53578	119294	NAVI	13	FUT	9	team win	Lotus	opponent pick
+53578	119295	FUT	11	NAVI	13	opponent win	Pearl	opponent pick
+53578	119295	NAVI	13	FUT	11	team win	Pearl	team pick
+53579	119297	KC	2	FNC	13	opponent win	Haven	opponent pick
+53579	119297	FNC	13	KC	2	team win	Haven	team pick
+53579	119298	KC	10	FNC	13	opponent win	Lotus	team pick
+53579	119298	FNC	13	KC	10	team win	Lotus	opponent pick
+53580	119300	BBL	11	TL	13	opponent win	Split	opponent pick
+53580	119300	TL	13	BBL	11	team win	Split	team pick
+53580	119301	BBL	13	TL	7	team win	Ascent	team pick
+53580	119301	TL	7	BBL	13	opponent win	Ascent	opponent pick
+53580	119302	BBL	7	TL	13	opponent win	Bind	opponent pick
+53580	119302	TL	13	BBL	7	team win	Bind	opponent pick
+53581	119303	KOI	13	TH	7	team win	Fracture	team pick
+53581	119303	TH	7	KOI	13	opponent win	Fracture	opponent pick
+53581	119304	KOI	9	TH	13	opponent win	Lotus	opponent pick
+53581	119304	TH	13	KOI	9	team win	Lotus	team pick
+53581	119305	KOI	13	TH	11	team win	Ascent	opponent pick
+53581	119305	TH	11	KOI	13	opponent win	Ascent	opponent pick
+53582	119306	FNC	13	NAVI	9	team win	Lotus	team pick
+53582	119306	NAVI	9	FNC	13	opponent win	Lotus	opponent pick
+53582	119307	FNC	13	NAVI	8	team win	Split	opponent pick
+53582	119307	NAVI	8	FNC	13	opponent win	Split	team pick
+53583	119309	TH	10	VIT	13	opponent win	Haven	opponent pick
+53583	119309	VIT	13	TH	10	team win	Haven	team pick
+53583	119310	TH	13	VIT	15	opponent win	Lotus	team pick
+53583	119310	VIT	15	TH	13	team win	Lotus	opponent pick
+53584	119312	KC	14	GIA	16	opponent win	Lotus	team pick
+53584	119312	GIA	16	KC	14	team win	Lotus	opponent pick
+53584	119313	KC	5	GIA	13	opponent win	Ascent	opponent pick
+53584	119313	GIA	13	KC	5	team win	Ascent	team pick
+53585	119315	KOI	7	TL	13	opponent win	Fracture	opponent pick
+53585	119315	TL	13	KOI	7	team win	Fracture	team pick
+53585	119316	KOI	13	TL	11	team win	Split	team pick
+53585	119316	TL	11	KOI	13	opponent win	Split	opponent pick
+53585	119317	KOI	8	TL	13	opponent win	Lotus	opponent pick
+53585	119317	TL	13	KOI	8	team win	Lotus	opponent pick
+53586	119318	BBL	5	FUT	13	opponent win	Pearl	opponent pick
+53586	119318	FUT	13	BBL	5	team win	Pearl	team pick
+53586	119319	BBL	7	FUT	13	opponent win	Haven	team pick
+53586	119319	FUT	13	BBL	7	team win	Haven	opponent pick
+58518	130941	GIA	5	FUT	13	opponent win	Haven	opponent pick
+58518	130941	FUT	13	GIA	5	team win	Haven	team pick
+58518	130942	GIA	12	FUT	14	opponent win	Ascent	team pick
+58518	130942	FUT	14	GIA	12	team win	Ascent	opponent pick
+58519	130944	TL	6	VIT	13	opponent win	Lotus	opponent pick
+58519	130944	VIT	13	TL	6	team win	Lotus	team pick
+58519	130945	TL	13	VIT	11	team win	Bind	team pick
+58519	130945	VIT	11	TL	13	opponent win	Bind	opponent pick
+58519	130946	TL	13	VIT	11	team win	Ascent	opponent pick
+58519	130946	VIT	11	TL	13	opponent win	Ascent	opponent pick
+58520	130947	FNC	9	FUT	13	opponent win	Bind	team pick
+58520	130947	FUT	13	FNC	9	team win	Bind	opponent pick
+58520	130948	FNC	13	FUT	2	team win	Split	opponent pick
+58520	130948	FUT	2	FNC	13	opponent win	Split	team pick
+58520	130949	FNC	13	FUT	1	team win	Lotus	opponent pick
+58520	130949	FUT	1	FNC	13	opponent win	Lotus	opponent pick
+58521	130950	NAVI	11	TL	13	opponent win	Bind	opponent pick
+58521	130950	TL	13	NAVI	11	team win	Bind	team pick
+58521	130951	NAVI	10	TL	13	opponent win	Split	team pick
+58521	130951	TL	13	NAVI	10	team win	Split	opponent pick
+58525	130962	FUT	13	VIT	9	team win	Split	opponent pick
+58525	130962	VIT	9	FUT	13	opponent win	Split	team pick
+58525	130963	FUT	9	VIT	13	opponent win	Haven	team pick
+58525	130963	VIT	13	FUT	9	team win	Haven	opponent pick
+58525	130964	FUT	13	VIT	6	team win	Lotus	opponent pick
+58525	130964	VIT	6	FUT	13	opponent win	Lotus	opponent pick
+58524	130959	NAVI	13	GIA	9	team win	Pearl	team pick
+58524	130959	GIA	9	NAVI	13	opponent win	Pearl	opponent pick
+58524	130960	NAVI	13	GIA	9	team win	Ascent	opponent pick
+58524	130960	GIA	9	NAVI	13	opponent win	Ascent	team pick
+58522	130953	FNC	14	TL	12	team win	Lotus	team pick
+58522	130953	TL	12	FNC	14	opponent win	Lotus	opponent pick
+58522	130954	FNC	13	TL	6	team win	Bind	opponent pick
+58522	130954	TL	6	FNC	13	opponent win	Bind	team pick
+58526	130965	NAVI	8	FUT	13	opponent win	Lotus	opponent pick
+58526	130965	FUT	13	NAVI	8	team win	Lotus	team pick
+58526	130966	NAVI	7	FUT	13	opponent win	Fracture	team pick
+58526	130966	FUT	13	NAVI	7	team win	Fracture	opponent pick
+58527	130968	TL	13	FUT	5	team win	Ascent	team pick
+58527	130968	FUT	5	TL	13	opponent win	Ascent	opponent pick
+58527	130969	TL	17	FUT	15	team win	Lotus	opponent pick
+58527	130969	FUT	15	TL	17	opponent win	Lotus	team pick
+58527	130970	TL	13	FUT	5	team win	Split	team pick
+58527	130970	FUT	5	TL	13	opponent win	Split	opponent pick
+58523	130956	FNC	13	TL	11	team win	Lotus	team pick
+58523	130956	TL	11	FNC	13	opponent win	Lotus	opponent pick
+58523	130957	FNC	12	TL	14	opponent win	Ascent	opponent pick
+58523	130957	TL	14	FNC	12	team win	Ascent	team pick
+58523	130958	FNC	6	TL	13	opponent win	Haven	team pick
+58523	130958	TL	13	FNC	6	team win	Haven	opponent pick
+58523	131673	FNC	11	TL	13	opponent win	Fracture	opponent pick
+58523	131673	TL	13	FNC	11	team win	Fracture	team pick
+53445	118923	SEN	13	100T	11	team win	Fracture	team pick
+53445	118923	100T	11	SEN	13	opponent win	Fracture	opponent pick
+53445	118924	SEN	12	100T	14	opponent win	Split	opponent pick
+53445	118924	100T	14	SEN	12	team win	Split	team pick
+53445	118925	SEN	14	100T	12	team win	Ascent	opponent pick
+53445	118925	100T	12	SEN	14	opponent win	Ascent	opponent pick
+53446	118926	KRÜ	11	FUR	13	opponent win	Split	team pick
+53446	118926	FUR	13	KRÜ	11	team win	Split	opponent pick
+53446	118927	KRÜ	5	FUR	13	opponent win	Ascent	opponent pick
+53446	118927	FUR	13	KRÜ	5	team win	Ascent	team pick
+53447	118929	LOUD	13	MIBR	5	team win	Split	team pick
+53447	118929	MIBR	5	LOUD	13	opponent win	Split	opponent pick
+53447	118930	LOUD	11	MIBR	13	opponent win	Lotus	opponent pick
+53447	118930	MIBR	13	LOUD	11	team win	Lotus	team pick
+53447	118931	LOUD	13	MIBR	11	team win	Haven	opponent pick
+53447	118931	MIBR	11	LOUD	13	opponent win	Haven	opponent pick
+53448	118932	EG	11	C9	13	opponent win	Pearl	team pick
+53448	118932	C9	13	EG	11	team win	Pearl	opponent pick
+53448	118933	EG	9	C9	13	opponent win	Fracture	opponent pick
+53448	118933	C9	13	EG	9	team win	Fracture	team pick
+53449	118935	LEV	13	NRG	11	team win	Pearl	team pick
+53449	118935	NRG	11	LEV	13	opponent win	Pearl	opponent pick
+53449	118936	LEV	13	NRG	4	team win	Lotus	opponent pick
+53449	118936	NRG	4	LEV	13	opponent win	Lotus	team pick
+53450	118938	C9	13	LOUD	7	team win	Split	team pick
+53450	118938	LOUD	7	C9	13	opponent win	Split	opponent pick
+53450	118939	C9	8	LOUD	13	opponent win	Ascent	opponent pick
+53450	118939	LOUD	13	C9	8	team win	Ascent	team pick
+53450	118940	C9	7	LOUD	13	opponent win	Pearl	opponent pick
+53450	118940	LOUD	13	C9	7	team win	Pearl	opponent pick
+53451	118941	LEV	13	FUR	11	team win	Pearl	team pick
+53451	118941	FUR	11	LEV	13	opponent win	Pearl	opponent pick
+53451	118942	LEV	5	FUR	13	opponent win	Icebox	opponent pick
+53451	118942	FUR	13	LEV	5	team win	Icebox	team pick
+53451	118943	LEV	10	FUR	13	opponent win	Ascent	opponent pick
+53451	118943	FUR	13	LEV	10	team win	Ascent	opponent pick
+53452	118944	NRG	13	SEN	10	team win	Lotus	opponent pick
+53452	118944	SEN	10	NRG	13	opponent win	Lotus	team pick
+53452	118945	NRG	13	SEN	2	team win	Icebox	team pick
+53452	118945	SEN	2	NRG	13	opponent win	Icebox	opponent pick
+53453	118947	MIBR	9	KRÜ	13	opponent win	Ascent	opponent pick
+53453	118947	KRÜ	13	MIBR	9	team win	Ascent	team pick
+53453	118948	MIBR	13	KRÜ	11	team win	Lotus	team pick
+53453	118948	KRÜ	11	MIBR	13	opponent win	Lotus	opponent pick
+53453	118949	MIBR	14	KRÜ	12	team win	Pearl	opponent pick
+53453	118949	KRÜ	12	MIBR	14	opponent win	Pearl	opponent pick
+53454	118950	EG	9	100T	13	opponent win	Haven	team pick
+53454	118950	100T	13	EG	9	team win	Haven	opponent pick
+53454	118951	EG	5	100T	13	opponent win	Icebox	opponent pick
+53454	118951	100T	13	EG	5	team win	Icebox	team pick
+53455	118953	C9	13	100T	7	team win	Lotus	team pick
+53455	118953	100T	7	C9	13	opponent win	Lotus	opponent pick
+53455	118954	C9	14	100T	12	team win	Ascent	opponent pick
+53455	118954	100T	12	C9	14	opponent win	Ascent	team pick
+53456	118956	NRG	10	MIBR	13	opponent win	Icebox	team pick
+53456	118956	MIBR	13	NRG	10	team win	Icebox	opponent pick
+53456	118957	NRG	16	MIBR	14	team win	Pearl	opponent pick
+53456	118957	MIBR	14	NRG	16	opponent win	Pearl	team pick
+53456	118958	NRG	14	MIBR	16	opponent win	Split	opponent pick
+53456	118958	MIBR	16	NRG	14	team win	Split	opponent pick
+53457	118959	LEV	14	SEN	12	team win	Split	opponent pick
+53457	118959	SEN	12	LEV	14	opponent win	Split	team pick
+53457	118960	LEV	11	SEN	13	opponent win	Ascent	team pick
+53457	118960	SEN	13	LEV	11	team win	Ascent	opponent pick
+53457	118961	LEV	13	SEN	4	team win	Pearl	opponent pick
+53457	118961	SEN	4	LEV	13	opponent win	Pearl	opponent pick
+53458	118962	EG	13	KRÜ	11	team win	Pearl	team pick
+53458	118962	KRÜ	11	EG	13	opponent win	Pearl	opponent pick
+53458	118963	EG	11	KRÜ	13	opponent win	Ascent	opponent pick
+53458	118963	KRÜ	13	EG	11	team win	Ascent	team pick
+53458	118964	EG	13	KRÜ	7	team win	Fracture	opponent pick
+53458	118964	KRÜ	7	EG	13	opponent win	Fracture	opponent pick
+53459	118965	LOUD	13	FUR	9	team win	Split	team pick
+53459	118965	FUR	9	LOUD	13	opponent win	Split	opponent pick
+53459	118966	LOUD	13	FUR	4	team win	Icebox	opponent pick
+53459	118966	FUR	4	LOUD	13	opponent win	Icebox	team pick
+53460	118968	LOUD	6	SEN	13	opponent win	Pearl	team pick
+53460	118968	SEN	13	LOUD	6	team win	Pearl	opponent pick
+53460	118969	LOUD	13	SEN	11	team win	Haven	opponent pick
+53460	118969	SEN	11	LOUD	13	opponent win	Haven	team pick
+53460	118970	LOUD	13	SEN	8	team win	Ascent	opponent pick
+53460	118970	SEN	8	LOUD	13	opponent win	Ascent	opponent pick
+53461	118971	LEV	13	MIBR	4	team win	Pearl	team pick
+53461	118971	MIBR	4	LEV	13	opponent win	Pearl	opponent pick
+53461	118972	LEV	13	MIBR	3	team win	Icebox	opponent pick
+53461	118972	MIBR	3	LEV	13	opponent win	Icebox	team pick
+53462	118974	KRÜ	13	100T	4	team win	Ascent	team pick
+53462	118974	100T	4	KRÜ	13	opponent win	Ascent	opponent pick
+53462	118975	KRÜ	11	100T	13	opponent win	Split	opponent pick
+53462	118975	100T	13	KRÜ	11	team win	Split	team pick
+53462	118976	KRÜ	5	100T	13	opponent win	Fracture	opponent pick
+53462	118976	100T	13	KRÜ	5	team win	Fracture	opponent pick
+53463	118977	EG	13	FUR	15	opponent win	Ascent	opponent pick
+53463	118977	FUR	15	EG	13	team win	Ascent	team pick
+53463	118978	EG	13	FUR	7	team win	Fracture	team pick
+53463	118978	FUR	7	EG	13	opponent win	Fracture	opponent pick
+53463	118979	EG	10	FUR	13	opponent win	Haven	opponent pick
+53463	118979	FUR	13	EG	10	team win	Haven	opponent pick
+53464	118980	NRG	13	C9	8	team win	Haven	opponent pick
+53464	118980	C9	8	NRG	13	opponent win	Haven	team pick
+53464	118981	NRG	9	C9	13	opponent win	Pearl	team pick
+53464	118981	C9	13	NRG	9	team win	Pearl	opponent pick
+53464	118982	NRG	7	C9	13	opponent win	Ascent	opponent pick
+53464	118982	C9	13	NRG	7	team win	Ascent	opponent pick
+53465	118983	MIBR	5	SEN	13	opponent win	Pearl	opponent pick
+53465	118983	SEN	13	MIBR	5	team win	Pearl	team pick
+53465	118984	MIBR	6	SEN	13	opponent win	Fracture	team pick
+53465	118984	SEN	13	MIBR	6	team win	Fracture	opponent pick
+53466	118986	LEV	15	100T	13	team win	Icebox	opponent pick
+53466	118986	100T	13	LEV	15	opponent win	Icebox	team pick
+53466	118987	LEV	11	100T	13	opponent win	Haven	team pick
+53466	118987	100T	13	LEV	11	team win	Haven	opponent pick
+53466	118988	LEV	11	100T	13	opponent win	Lotus	opponent pick
+53466	118988	100T	13	LEV	11	team win	Lotus	opponent pick
+53467	118989	EG	13	LOUD	3	team win	Split	opponent pick
+53467	118989	LOUD	3	EG	13	opponent win	Split	team pick
+53467	118990	EG	10	LOUD	13	opponent win	Haven	team pick
+53467	118990	LOUD	13	EG	10	team win	Haven	opponent pick
+53467	118991	EG	0	LOUD	13	opponent win	Pearl	opponent pick
+53467	118991	LOUD	13	EG	0	team win	Pearl	opponent pick
+53468	118992	C9	13	FUR	8	team win	Ascent	opponent pick
+53468	118992	FUR	8	C9	13	opponent win	Ascent	team pick
+53468	118993	C9	13	FUR	9	team win	Fracture	team pick
+53468	118993	FUR	9	C9	13	opponent win	Fracture	opponent pick
+53469	118995	NRG	13	KRÜ	10	team win	Haven	team pick
+53469	118995	KRÜ	10	NRG	13	opponent win	Haven	opponent pick
+53469	118996	NRG	13	KRÜ	4	team win	Ascent	opponent pick
+53469	118996	KRÜ	4	NRG	13	opponent win	Ascent	team pick
+53470	118998	NRG	13	100T	7	team win	Bind	team pick
+53470	118998	100T	7	NRG	13	opponent win	Bind	opponent pick
+53470	118999	NRG	13	100T	3	team win	Fracture	opponent pick
+53470	118999	100T	3	NRG	13	opponent win	Fracture	team pick
+53471	119001	MIBR	11	FUR	13	opponent win	Pearl	opponent pick
+53471	119001	FUR	13	MIBR	11	team win	Pearl	team pick
+53471	119002	MIBR	7	FUR	13	opponent win	Split	team pick
+53471	119002	FUR	13	MIBR	7	team win	Split	opponent pick
+53472	119004	C9	13	SEN	4	team win	Lotus	opponent pick
+53472	119004	SEN	4	C9	13	opponent win	Lotus	team pick
+53472	119005	C9	13	SEN	6	team win	Fracture	team pick
+53472	119005	SEN	6	C9	13	opponent win	Fracture	opponent pick
+53473	119007	LEV	10	EG	13	opponent win	Split	opponent pick
+53473	119007	EG	13	LEV	10	team win	Split	team pick
+53473	119008	LEV	13	EG	10	team win	Pearl	team pick
+53473	119008	EG	10	LEV	13	opponent win	Pearl	opponent pick
+53473	119009	LEV	10	EG	13	opponent win	Ascent	opponent pick
+53473	119009	EG	13	LEV	10	team win	Ascent	opponent pick
+53474	119010	LOUD	10	KRÜ	13	opponent win	Pearl	team pick
+53474	119010	KRÜ	13	LOUD	10	team win	Pearl	opponent pick
+53474	119011	LOUD	13	KRÜ	11	team win	Ascent	opponent pick
+53474	119011	KRÜ	11	LOUD	13	opponent win	Ascent	team pick
+53474	119012	LOUD	13	KRÜ	10	team win	Split	opponent pick
+53474	119012	KRÜ	10	LOUD	13	opponent win	Split	opponent pick
+53475	119013	EG	13	SEN	6	team win	Fracture	team pick
+53475	119013	SEN	6	EG	13	opponent win	Fracture	opponent pick
+53475	119014	EG	13	SEN	5	team win	Pearl	opponent pick
+53475	119014	SEN	5	EG	13	opponent win	Pearl	team pick
+53476	119016	C9	13	MIBR	5	team win	Split	team pick
+53476	119016	MIBR	5	C9	13	opponent win	Split	opponent pick
+53476	119017	C9	13	MIBR	4	team win	Lotus	opponent pick
+53476	119017	MIBR	4	C9	13	opponent win	Lotus	team pick
+53477	119019	LOUD	13	100T	5	team win	Ascent	team pick
+53477	119019	100T	5	LOUD	13	opponent win	Ascent	opponent pick
+53477	119020	LOUD	15	100T	13	team win	Split	opponent pick
+53477	119020	100T	13	LOUD	15	opponent win	Split	team pick
+53478	119022	LEV	13	KRÜ	4	team win	Haven	team pick
+53478	119022	KRÜ	4	LEV	13	opponent win	Haven	opponent pick
+53478	119023	LEV	13	KRÜ	4	team win	Split	opponent pick
+53478	119023	KRÜ	4	LEV	13	opponent win	Split	team pick
+53479	119025	NRG	13	FUR	11	team win	Bind	team pick
+53479	119025	FUR	11	NRG	13	opponent win	Bind	opponent pick
+53479	119026	NRG	11	FUR	13	opponent win	Haven	opponent pick
+53479	119026	FUR	13	NRG	11	team win	Haven	team pick
+53479	119027	NRG	13	FUR	6	team win	Pearl	opponent pick
+53479	119027	FUR	6	NRG	13	opponent win	Pearl	opponent pick
+53480	119028	FUR	13	100T	10	team win	Pearl	team pick
+53480	119028	100T	10	FUR	13	opponent win	Pearl	opponent pick
+53480	119029	FUR	7	100T	13	opponent win	Fracture	opponent pick
+53480	119029	100T	13	FUR	7	team win	Fracture	team pick
+53480	119030	FUR	11	100T	13	opponent win	Haven	opponent pick
+53480	119030	100T	13	FUR	11	team win	Haven	opponent pick
+53481	119031	EG	13	MIBR	2	team win	Lotus	opponent pick
+53481	119031	MIBR	2	EG	13	opponent win	Lotus	team pick
+53481	119032	EG	13	MIBR	5	team win	Fracture	team pick
+53481	119032	MIBR	5	EG	13	opponent win	Fracture	opponent pick
+53482	119034	KRÜ	12	SEN	14	opponent win	Lotus	opponent pick
+53482	119034	SEN	14	KRÜ	12	team win	Lotus	team pick
+53482	119035	KRÜ	10	SEN	13	opponent win	Bind	team pick
+53482	119035	SEN	13	KRÜ	10	team win	Bind	opponent pick
+53483	119037	NRG	13	LOUD	5	team win	Split	opponent pick
+53483	119037	LOUD	5	NRG	13	opponent win	Split	team pick
+53483	119038	NRG	13	LOUD	9	team win	Pearl	team pick
+53483	119038	LOUD	9	NRG	13	opponent win	Pearl	opponent pick
+53484	119040	LEV	7	C9	13	opponent win	Lotus	opponent pick
+53484	119040	C9	13	LEV	7	team win	Lotus	team pick
+53484	119041	LEV	4	C9	13	opponent win	Haven	team pick
+53484	119041	C9	13	LEV	4	team win	Haven	opponent pick
+53557	119231	SEN	13	FUR	7	team win	Split	team pick
+53557	119231	FUR	7	SEN	13	opponent win	Split	opponent pick
+53557	119232	SEN	5	FUR	13	opponent win	Haven	opponent pick
+53557	119232	FUR	13	SEN	5	team win	Haven	team pick
+53557	119233	SEN	19	FUR	17	team win	Bind	opponent pick
+53557	119233	FUR	17	SEN	19	opponent win	Bind	opponent pick
+53558	119234	NRG	13	EG	9	team win	Bind	team pick
+53558	119234	EG	9	NRG	13	opponent win	Bind	opponent pick
+53558	119235	NRG	13	EG	7	team win	Split	opponent pick
+53558	119235	EG	7	NRG	13	opponent win	Split	team pick
+53559	119237	C9	15	KRÜ	13	team win	Lotus	team pick
+53559	119237	KRÜ	13	C9	15	opponent win	Lotus	opponent pick
+53559	119238	C9	6	KRÜ	13	opponent win	Ascent	opponent pick
+53559	119238	KRÜ	13	C9	6	team win	Ascent	team pick
+53559	119239	C9	13	KRÜ	9	team win	Split	opponent pick
+53559	119239	KRÜ	9	C9	13	opponent win	Split	opponent pick
+53560	119240	LEV	7	LOUD	13	opponent win	Haven	team pick
+53560	119240	LOUD	13	LEV	7	team win	Haven	opponent pick
+53560	119241	LEV	5	LOUD	13	opponent win	Ascent	opponent pick
+53560	119241	LOUD	13	LEV	5	team win	Ascent	team pick
+53561	119243	MIBR	13	100T	6	team win	Fracture	opponent pick
+53561	119243	100T	6	MIBR	13	opponent win	Fracture	team pick
+53561	119244	MIBR	12	100T	14	opponent win	Pearl	team pick
+53561	119244	100T	14	MIBR	12	team win	Pearl	opponent pick
+53561	119245	MIBR	13	100T	7	team win	Lotus	opponent pick
+53561	119245	100T	7	MIBR	13	opponent win	Lotus	opponent pick
+55152	123159	LEV	5	FUR	13	opponent win	Ascent	opponent pick
+55152	123159	FUR	13	LEV	5	team win	Ascent	team pick
+55152	123160	LEV	20	FUR	18	team win	Pearl	team pick
+55152	123160	FUR	18	LEV	20	opponent win	Pearl	opponent pick
+55152	123161	LEV	6	FUR	13	opponent win	Bind	opponent pick
+55152	123161	FUR	13	LEV	6	team win	Bind	opponent pick
+55153	123162	NRG	13	EG	11	team win	Haven	team pick
+55153	123162	EG	11	NRG	13	opponent win	Haven	opponent pick
+55153	123163	NRG	13	EG	15	opponent win	Split	opponent pick
+55153	123163	EG	15	NRG	13	team win	Split	team pick
+55153	123164	NRG	7	EG	13	opponent win	Ascent	opponent pick
+55153	123164	EG	13	NRG	7	team win	Ascent	opponent pick
+55154	123165	LOUD	13	FUR	4	team win	Haven	opponent pick
+55154	123165	FUR	4	LOUD	13	opponent win	Haven	team pick
+55154	123166	LOUD	13	FUR	5	team win	Ascent	team pick
+55154	123166	FUR	5	LOUD	13	opponent win	Ascent	opponent pick
+55155	123168	C9	5	EG	13	opponent win	Fracture	opponent pick
+55155	123168	EG	13	C9	5	team win	Fracture	team pick
+55155	123169	C9	2	EG	13	opponent win	Bind	team pick
+55155	123169	EG	13	C9	2	team win	Bind	opponent pick
+55159	123182	FUR	9	NRG	13	opponent win	Bind	opponent pick
+55159	123182	NRG	13	FUR	9	team win	Bind	team pick
+55159	123183	FUR	10	NRG	13	opponent win	Haven	team pick
+55159	123183	NRG	13	FUR	10	team win	Haven	opponent pick
+55158	123179	C9	13	LEV	8	team win	Haven	opponent pick
+55158	123179	LEV	8	C9	13	opponent win	Haven	team pick
+55158	123180	C9	10	LEV	13	opponent win	Lotus	team pick
+55158	123180	LEV	13	C9	10	team win	Lotus	opponent pick
+55158	123181	C9	13	LEV	4	team win	Ascent	opponent pick
+55158	123181	LEV	4	C9	13	opponent win	Ascent	opponent pick
+55156	123171	LOUD	13	EG	9	team win	Fracture	opponent pick
+55156	123171	EG	9	LOUD	13	opponent win	Fracture	team pick
+55156	123172	LOUD	11	EG	13	opponent win	Ascent	team pick
+55156	123172	EG	13	LOUD	11	team win	Ascent	opponent pick
+55156	123173	LOUD	13	EG	3	team win	Bind	opponent pick
+55156	123173	EG	3	LOUD	13	opponent win	Bind	opponent pick
+55160	123185	C9	13	NRG	10	team win	Pearl	opponent pick
+55160	123185	NRG	10	C9	13	opponent win	Pearl	team pick
+55160	123186	C9	9	NRG	13	opponent win	Lotus	team pick
+55160	123186	NRG	13	C9	9	team win	Lotus	opponent pick
+55160	123187	C9	12	NRG	14	opponent win	Haven	opponent pick
+55160	123187	NRG	14	C9	12	team win	Haven	opponent pick
+55161	123188	EG	13	NRG	11	team win	Haven	opponent pick
+55161	123188	NRG	11	EG	13	opponent win	Haven	team pick
+55161	123189	EG	8	NRG	13	opponent win	Ascent	team pick
+55161	123189	NRG	13	EG	8	team win	Ascent	opponent pick
+55161	123190	EG	10	NRG	13	opponent win	Lotus	opponent pick
+55161	123190	NRG	13	EG	10	team win	Lotus	team pick
+55161	123191	EG	4	NRG	13	opponent win	Split	team pick
+55161	123191	NRG	13	EG	4	team win	Split	opponent pick
+55157	123174	LOUD	13	NRG	9	team win	Ascent	team pick
+55157	123174	NRG	9	LOUD	13	opponent win	Ascent	opponent pick
+55157	123175	LOUD	13	NRG	11	team win	Bind	opponent pick
+55157	123175	NRG	11	LOUD	13	opponent win	Bind	team pick
+55157	123176	LOUD	13	NRG	11	team win	Fracture	team pick
+55157	123176	NRG	11	LOUD	13	opponent win	Fracture	opponent pick
+59226	132557	FUT	5	EG	13	opponent win	Split	opponent pick
+59226	132557	EG	13	FUT	5	team win	Split	team pick
+59226	132558	FUT	12	EG	14	opponent win	Lotus	team pick
+59226	132558	EG	14	FUT	12	team win	Lotus	opponent pick
+59225	132554	DRX	13	ASE	10	team win	Fracture	opponent pick
+59225	132554	ASE	10	DRX	13	opponent win	Fracture	team pick
+59225	132555	DRX	13	ASE	7	team win	Pearl	team pick
+59225	132555	ASE	7	DRX	13	opponent win	Pearl	opponent pick
+59221	132542	EDG	10	T1	13	opponent win	Fracture	opponent pick
+59221	132542	T1	13	EDG	10	team win	Fracture	team pick
+59221	132543	EDG	13	T1	7	team win	Haven	team pick
+59221	132543	T1	7	EDG	13	opponent win	Haven	opponent pick
+59221	132544	EDG	12	T1	14	opponent win	Pearl	opponent pick
+59221	132544	T1	14	EDG	12	team win	Pearl	opponent pick
+59220	132539	NRG	13	NAVI	8	team win	Ascent	opponent pick
+59220	132539	NAVI	8	NRG	13	opponent win	Ascent	team pick
+59220	132540	NRG	12	NAVI	14	opponent win	Lotus	team pick
+59220	132540	NAVI	14	NRG	12	team win	Lotus	opponent pick
+59220	132541	NRG	13	NAVI	6	team win	Split	opponent pick
+59220	132541	NAVI	6	NRG	13	opponent win	Split	opponent pick
+59227	132560	DRX	5	EG	13	opponent win	Fracture	opponent pick
+59227	132560	EG	13	DRX	5	team win	Fracture	team pick
+59227	132561	DRX	9	EG	13	opponent win	Ascent	team pick
+59227	132561	EG	13	DRX	9	team win	Ascent	opponent pick
+59222	132545	NRG	11	T1	13	opponent win	Lotus	opponent pick
+59222	132545	T1	13	NRG	11	team win	Lotus	team pick
+59222	132546	NRG	13	T1	7	team win	Bind	team pick
+59222	132546	T1	7	NRG	13	opponent win	Bind	opponent pick
+59222	132547	NRG	13	T1	11	team win	Pearl	opponent pick
+59222	132547	T1	11	NRG	13	opponent win	Pearl	opponent pick
+59228	132563	ASE	13	FUT	8	team win	Haven	opponent pick
+59228	132563	FUT	8	ASE	13	opponent win	Haven	team pick
+59228	132564	ASE	5	FUT	13	opponent win	Ascent	team pick
+59228	132564	FUT	13	ASE	5	team win	Ascent	opponent pick
+59228	132565	ASE	6	FUT	13	opponent win	Lotus	opponent pick
+59228	132565	FUT	13	ASE	6	team win	Lotus	opponent pick
+59223	132548	NAVI	15	EDG	17	opponent win	Pearl	team pick
+59223	132548	EDG	17	NAVI	15	team win	Pearl	opponent pick
+59223	132549	NAVI	12	EDG	14	opponent win	Bind	opponent pick
+59223	132549	EDG	14	NAVI	12	team win	Bind	team pick
+59229	132566	DRX	9	FUT	13	opponent win	Bind	opponent pick
+59229	132566	FUT	13	DRX	9	team win	Bind	team pick
+59229	132567	DRX	13	FUT	8	team win	Fracture	team pick
+59229	132567	FUT	8	DRX	13	opponent win	Fracture	opponent pick
+59229	132568	DRX	13	FUT	4	team win	Haven	opponent pick
+59229	132568	FUT	4	DRX	13	opponent win	Haven	opponent pick
+59224	132551	T1	4	EDG	13	opponent win	Fracture	team pick
+59224	132551	EDG	13	T1	4	team win	Fracture	opponent pick
+59224	132552	T1	6	EDG	13	opponent win	Haven	opponent pick
+59224	132552	EDG	13	T1	6	team win	Haven	team pick
+59274	132701	LOUD	7	EG	13	opponent win	Fracture	opponent pick
+59274	132701	EG	13	LOUD	7	team win	Fracture	team pick
+59274	132702	LOUD	5	EG	13	opponent win	Ascent	team pick
+59274	132702	EG	13	LOUD	5	team win	Ascent	opponent pick
+59273	132698	TL	13	EDG	9	team win	Haven	opponent pick
+59273	132698	EDG	9	TL	13	opponent win	Haven	team pick
+59273	132699	TL	8	EDG	13	opponent win	Split	team pick
+59273	132699	EDG	13	TL	8	team win	Split	opponent pick
+59273	132700	TL	13	EDG	11	team win	Lotus	opponent pick
+59273	132700	EDG	11	TL	13	opponent win	Lotus	opponent pick
+59272	132695	FNC	13	NRG	9	team win	Fracture	team pick
+59272	132695	NRG	9	FNC	13	opponent win	Fracture	opponent pick
+59272	132696	FNC	13	NRG	4	team win	Bind	opponent pick
+59272	132696	NRG	4	FNC	13	opponent win	Bind	team pick
+59271	132692	PRX	13	DRX	10	team win	Split	opponent pick
+59271	132692	DRX	10	PRX	13	opponent win	Split	team pick
+59271	132693	PRX	13	DRX	10	team win	Bind	team pick
+59271	132693	DRX	10	PRX	13	opponent win	Bind	opponent pick
+59280	132721	EDG	13	LOUD	6	team win	Lotus	opponent pick
+59280	132721	LOUD	6	EDG	13	opponent win	Lotus	team pick
+59280	132722	EDG	13	LOUD	10	team win	Fracture	team pick
+59280	132722	LOUD	10	EDG	13	opponent win	Fracture	opponent pick
+59279	132718	DRX	11	NRG	13	opponent win	Pearl	team pick
+59279	132718	NRG	13	DRX	11	team win	Pearl	opponent pick
+59279	132719	DRX	5	NRG	13	opponent win	Haven	opponent pick
+59279	132719	NRG	13	DRX	5	team win	Haven	team pick
+59276	132707	TL	2	EG	13	opponent win	Fracture	opponent pick
+59276	132707	EG	13	TL	2	team win	Fracture	team pick
+59276	132708	TL	9	EG	13	opponent win	Haven	team pick
+59276	132708	EG	13	TL	9	team win	Haven	opponent pick
+59275	132704	PRX	5	FNC	13	opponent win	Lotus	opponent pick
+59275	132704	FNC	13	PRX	5	team win	Lotus	team pick
+59275	132705	PRX	7	FNC	13	opponent win	Bind	team pick
+59275	132705	FNC	13	PRX	7	team win	Bind	opponent pick
+59281	132724	TL	12	NRG	14	opponent win	Haven	opponent pick
+59281	132724	NRG	14	TL	12	team win	Haven	team pick
+59281	132725	TL	13	NRG	8	team win	Ascent	team pick
+59281	132725	NRG	8	TL	13	opponent win	Ascent	opponent pick
+59281	132726	TL	5	NRG	13	opponent win	Split	opponent pick
+59281	132726	NRG	13	TL	5	team win	Split	opponent pick
+59282	132727	PRX	14	EDG	12	team win	Fracture	opponent pick
+59282	132727	EDG	12	PRX	14	opponent win	Fracture	team pick
+59282	132728	PRX	9	EDG	13	opponent win	Split	team pick
+59282	132728	EDG	13	PRX	9	team win	Split	opponent pick
+59282	132729	PRX	13	EDG	8	team win	Lotus	opponent pick
+59282	132729	EDG	8	PRX	13	opponent win	Lotus	opponent pick
+59277	132710	FNC	13	EG	3	team win	Lotus	team pick
+59277	132710	EG	3	FNC	13	opponent win	Lotus	opponent pick
+59277	132711	FNC	9	EG	13	opponent win	Fracture	opponent pick
+59277	132711	EG	13	FNC	9	team win	Fracture	team pick
+59277	132712	FNC	13	EG	11	team win	Split	opponent pick
+59277	132712	EG	11	FNC	13	opponent win	Split	opponent pick
+59283	132730	NRG	13	PRX	15	opponent win	Pearl	team pick
+59283	132730	PRX	15	NRG	13	team win	Pearl	opponent pick
+59283	132731	NRG	13	PRX	6	team win	Lotus	opponent pick
+59283	132731	PRX	6	NRG	13	opponent win	Lotus	team pick
+59283	132732	NRG	11	PRX	13	opponent win	Bind	opponent pick
+59283	132732	PRX	13	NRG	11	team win	Bind	opponent pick
+59284	132733	EG	13	PRX	7	team win	Fracture	team pick
+59284	132733	PRX	7	EG	13	opponent win	Fracture	opponent pick
+59284	132734	EG	12	PRX	14	opponent win	Lotus	opponent pick
+59284	132734	PRX	14	EG	12	team win	Lotus	team pick
+59284	132735	EG	10	PRX	13	opponent win	Split	team pick
+59284	132735	PRX	13	EG	10	team win	Split	opponent pick
+59284	132736	EG	13	PRX	6	team win	Pearl	opponent pick
+59284	132736	PRX	6	EG	13	opponent win	Pearl	team pick
+59284	132737	EG	13	PRX	8	team win	Ascent	opponent pick
+59284	132737	PRX	8	EG	13	opponent win	Ascent	opponent pick
+59278	132713	FNC	13	EG	8	team win	Lotus	team pick
+59278	132713	EG	8	FNC	13	opponent win	Lotus	opponent pick
+59278	132714	FNC	13	EG	11	team win	Split	opponent pick
+59278	132714	EG	11	FNC	13	opponent win	Split	team pick
+59278	132715	FNC	14	EG	12	team win	Bind	team pick
+59278	132715	EG	12	FNC	14	opponent win	Bind	opponent pick
+60388	135648	TLN	13	DFM	7	team win	Fracture	opponent pick
+60388	135648	DFM	7	TLN	13	opponent win	Fracture	team pick
+60388	135649	TLN	13	DFM	8	team win	Ascent	team pick
+60388	135649	DFM	8	TLN	13	opponent win	Ascent	opponent pick
+60389	135651	RRQ	13	GE	10	team win	Split	opponent pick
+60389	135651	GE	10	RRQ	13	opponent win	Split	team pick
+60389	135652	RRQ	13	GE	10	team win	Ascent	team pick
+60389	135652	GE	10	RRQ	13	opponent win	Ascent	opponent pick
+60390	135654	GEN	11	TLN	13	opponent win	Pearl	opponent pick
+60390	135654	TLN	13	GEN	11	team win	Pearl	team pick
+60390	135655	GEN	13	TLN	10	team win	Split	team pick
+60390	135655	TLN	10	GEN	13	opponent win	Split	opponent pick
+60390	135656	GEN	15	TLN	13	team win	Haven	opponent pick
+60390	135656	TLN	13	GEN	15	opponent win	Haven	opponent pick
+60391	135657	ZETA	2	RRQ	13	opponent win	Haven	opponent pick
+60391	135657	RRQ	13	ZETA	2	team win	Haven	team pick
+60391	135658	ZETA	13	RRQ	8	team win	Split	team pick
+60391	135658	RRQ	8	ZETA	13	opponent win	Split	opponent pick
+60391	135659	ZETA	21	RRQ	19	team win	Ascent	opponent pick
+60391	135659	RRQ	19	ZETA	21	opponent win	Ascent	opponent pick
+60392	135660	TS	13	GEN	6	team win	Haven	team pick
+60392	135660	GEN	6	TS	13	opponent win	Haven	opponent pick
+60392	135661	TS	13	GEN	8	team win	Ascent	opponent pick
+60392	135661	GEN	8	TS	13	opponent win	Ascent	team pick
+60393	135663	ZETA	13	TS	9	team win	Lotus	opponent pick
+60393	135663	TS	9	ZETA	13	opponent win	Lotus	team pick
+60393	135664	ZETA	13	TS	7	team win	Fracture	team pick
+60393	135664	TS	7	ZETA	13	opponent win	Fracture	opponent pick
+60394	135666	RRQ	6	GEN	13	opponent win	Haven	team pick
+60394	135666	GEN	13	RRQ	6	team win	Haven	opponent pick
+60394	135667	RRQ	13	GEN	2	team win	Lotus	opponent pick
+60394	135667	GEN	2	RRQ	13	opponent win	Lotus	team pick
+60394	135668	RRQ	7	GEN	13	opponent win	Ascent	opponent pick
+60394	135668	GEN	13	RRQ	7	team win	Ascent	opponent pick
+60395	135669	TS	10	GEN	13	opponent win	Haven	team pick
+60395	135669	GEN	13	TS	10	team win	Haven	opponent pick
+60395	135670	TS	13	GEN	11	team win	Pearl	opponent pick
+60395	135670	GEN	11	TS	13	opponent win	Pearl	team pick
+60395	135671	TS	13	GEN	2	team win	Ascent	team pick
+60395	135671	GEN	2	TS	13	opponent win	Ascent	opponent pick
+60395	135672	TS	13	GEN	6	team win	Lotus	opponent pick
+60395	135672	GEN	6	TS	13	opponent win	Lotus	team pick
+60396	135674	ZETA	14	TS	12	team win	Fracture	team pick
+60396	135674	TS	12	ZETA	14	opponent win	Fracture	opponent pick
+60396	135675	ZETA	9	TS	13	opponent win	Ascent	opponent pick
+60396	135675	TS	13	ZETA	9	team win	Ascent	team pick
+60396	135676	ZETA	13	TS	7	team win	Split	team pick
+60396	135676	TS	7	ZETA	13	opponent win	Split	opponent pick
+60396	135677	ZETA	13	TS	6	team win	Lotus	opponent pick
+60396	135677	TS	6	ZETA	13	opponent win	Lotus	team pick
+60192	135070	TH	8	KOI	13	opponent win	Fracture	opponent pick
+60192	135070	KOI	13	TH	8	team win	Fracture	team pick
+60192	135071	TH	13	KOI	10	team win	Pearl	team pick
+60192	135071	KOI	10	TH	13	opponent win	Pearl	opponent pick
+60192	135072	TH	6	KOI	13	opponent win	Haven	opponent pick
+60192	135072	KOI	13	TH	6	team win	Haven	opponent pick
+60193	135073	BBL	14	KC	12	team win	Haven	team pick
+60193	135073	KC	12	BBL	14	opponent win	Haven	opponent pick
+60193	135074	BBL	9	KC	13	opponent win	Lotus	opponent pick
+60193	135074	KC	13	BBL	9	team win	Lotus	team pick
+60193	135075	BBL	12	KC	14	opponent win	Bind	opponent pick
+60193	135075	KC	14	BBL	12	team win	Bind	opponent pick
+60194	135076	NAVI	6	KOI	13	opponent win	Split	opponent pick
+60194	135076	KOI	13	NAVI	6	team win	Split	team pick
+60194	135077	NAVI	3	KOI	13	opponent win	Lotus	team pick
+60194	135077	KOI	13	NAVI	3	team win	Lotus	opponent pick
+60195	135079	GIA	13	KC	11	team win	Pearl	opponent pick
+60195	135079	KC	11	GIA	13	opponent win	Pearl	team pick
+60195	135080	GIA	13	KC	5	team win	Split	team pick
+60195	135080	KC	5	GIA	13	opponent win	Split	opponent pick
+60196	135082	KOI	12	GIA	14	opponent win	Haven	team pick
+60196	135082	GIA	14	KOI	12	team win	Haven	opponent pick
+60196	135083	KOI	5	GIA	13	opponent win	Pearl	opponent pick
+60196	135083	GIA	13	KOI	5	team win	Pearl	team pick
+60200	135096	NAVI	13	KC	6	team win	Lotus	opponent pick
+60200	135096	KC	6	NAVI	13	opponent win	Lotus	team pick
+60200	135097	NAVI	7	KC	13	opponent win	Ascent	team pick
+60200	135097	KC	13	NAVI	7	team win	Ascent	opponent pick
+60200	135098	NAVI	13	KC	7	team win	Pearl	opponent pick
+60200	135098	KC	7	NAVI	13	opponent win	Pearl	opponent pick
+60201	135099	KOI	12	NAVI	14	opponent win	Split	team pick
+60201	135099	NAVI	14	KOI	12	team win	Split	opponent pick
+60201	135100	KOI	10	NAVI	13	opponent win	Pearl	opponent pick
+60201	135100	NAVI	13	KOI	10	team win	Pearl	team pick
+60201	135101	KOI	9	NAVI	13	opponent win	Fracture	team pick
+60201	135101	NAVI	13	KOI	9	team win	Fracture	opponent pick
+60197	135085	GIA	13	NAVI	11	team win	Bind	team pick
+60197	135085	NAVI	11	GIA	13	opponent win	Bind	opponent pick
+60197	135086	GIA	13	NAVI	7	team win	Lotus	opponent pick
+60197	135086	NAVI	7	GIA	13	opponent win	Lotus	team pick
+60197	135087	GIA	13	NAVI	9	team win	Haven	team pick
+60197	135087	NAVI	9	GIA	13	opponent win	Haven	opponent pick
+59969	134548	MIBR	7	KRÜ	13	opponent win	Bind	opponent pick
+59969	134548	KRÜ	13	MIBR	7	team win	Bind	team pick
+59969	134549	MIBR	8	KRÜ	13	opponent win	Lotus	team pick
+59969	134549	KRÜ	13	MIBR	8	team win	Lotus	opponent pick
+59971	134554	FUR	14	KRÜ	12	team win	Split	opponent pick
+59971	134554	KRÜ	12	FUR	14	opponent win	Split	team pick
+59971	134555	FUR	4	KRÜ	13	opponent win	Ascent	team pick
+59971	134555	KRÜ	13	FUR	4	team win	Ascent	opponent pick
+59971	134556	FUR	11	KRÜ	13	opponent win	Bind	opponent pick
+59971	134556	KRÜ	13	FUR	11	team win	Bind	opponent pick
+59970	134551	SEN	12	100T	14	opponent win	Pearl	opponent pick
+59970	134551	100T	14	SEN	12	team win	Pearl	team pick
+59970	134552	SEN	13	100T	7	team win	Split	team pick
+59970	134552	100T	7	SEN	13	opponent win	Split	opponent pick
+59970	134553	SEN	13	100T	7	team win	Bind	opponent pick
+59970	134553	100T	7	SEN	13	opponent win	Bind	opponent pick
+59972	134557	C9	13	SEN	8	team win	Pearl	opponent pick
+59972	134557	SEN	8	C9	13	opponent win	Pearl	team pick
+59972	134558	C9	5	SEN	13	opponent win	Fracture	team pick
+59972	134558	SEN	13	C9	5	team win	Fracture	opponent pick
+59972	134559	C9	13	SEN	8	team win	Split	opponent pick
+59972	134559	SEN	8	C9	13	opponent win	Split	opponent pick
+59973	134560	LEV	5	KRÜ	13	opponent win	Split	opponent pick
+59973	134560	KRÜ	13	LEV	5	team win	Split	team pick
+59973	134561	LEV	7	KRÜ	13	opponent win	Lotus	team pick
+59973	134561	KRÜ	13	LEV	7	team win	Lotus	opponent pick
+59974	134563	C9	13	KRÜ	4	team win	Ascent	opponent pick
+59974	134563	KRÜ	4	C9	13	opponent win	Ascent	team pick
+59974	134564	C9	4	KRÜ	13	opponent win	Pearl	team pick
+59974	134564	KRÜ	13	C9	4	team win	Pearl	opponent pick
+59974	134565	C9	6	KRÜ	13	opponent win	Haven	opponent pick
+59974	134565	KRÜ	13	C9	6	team win	Haven	opponent pick
+59976	134571	SEN	8	LEV	13	opponent win	Fracture	opponent pick
+59976	134571	LEV	13	SEN	8	team win	Fracture	team pick
+59976	134572	SEN	4	LEV	13	opponent win	Split	team pick
+59976	134572	LEV	13	SEN	4	team win	Split	opponent pick
+59977	134574	C9	13	LEV	7	team win	Lotus	team pick
+59977	134574	LEV	7	C9	13	opponent win	Lotus	opponent pick
+59977	134575	C9	13	LEV	9	team win	Pearl	opponent pick
+59977	134575	LEV	9	C9	13	opponent win	Pearl	team pick
+59977	134576	C9	11	LEV	13	opponent win	Split	team pick
+59977	134576	LEV	13	C9	11	team win	Split	opponent pick
+59977	134577	C9	10	LEV	13	opponent win	Haven	opponent pick
+59977	134577	LEV	13	C9	10	team win	Haven	team pick
+59977	134578	C9	7	LEV	13	opponent win	Bind	opponent pick
+59977	134578	LEV	13	C9	7	team win	Bind	opponent pick
+59975	134566	KRÜ	13	LEV	5	team win	Split	team pick
+59975	134566	LEV	5	KRÜ	13	opponent win	Split	opponent pick
+59975	134567	KRÜ	8	LEV	13	opponent win	Pearl	opponent pick
+59975	134567	LEV	13	KRÜ	8	team win	Pearl	team pick
+59975	134568	KRÜ	13	LEV	6	team win	Ascent	team pick
+59975	134568	LEV	6	KRÜ	13	opponent win	Ascent	opponent pick
+59975	134569	KRÜ	13	LEV	10	team win	Lotus	opponent pick
+59975	134569	LEV	10	KRÜ	13	opponent win	Lotus	team pick
+61038	137395	TL	11	NAVI	13	opponent win	Fracture	opponent pick
+61038	137395	NAVI	13	TL	11	team win	Fracture	team pick
+61038	137396	TL	15	NAVI	17	opponent win	Bind	team pick
+61038	137396	NAVI	17	TL	15	team win	Bind	opponent pick
+61039	137398	DRX	13	LOUD	15	opponent win	Lotus	opponent pick
+61039	137398	LOUD	15	DRX	13	team win	Lotus	team pick
+61039	137399	DRX	13	LOUD	6	team win	Split	team pick
+61039	137399	LOUD	6	DRX	13	opponent win	Split	opponent pick
+61039	137400	DRX	13	LOUD	8	team win	Ascent	opponent pick
+61039	137400	LOUD	8	DRX	13	opponent win	Ascent	opponent pick
+61029	137368	FUT	13	T1	4	team win	Pearl	opponent pick
+61029	137368	T1	4	FUT	13	opponent win	Pearl	team pick
+61029	137369	FUT	13	T1	7	team win	Haven	team pick
+61029	137369	T1	7	FUT	13	opponent win	Haven	opponent pick
+61028	137365	EG	13	FPX	8	team win	Ascent	team pick
+61028	137365	FPX	8	EG	13	opponent win	Ascent	opponent pick
+61028	137366	EG	13	FPX	8	team win	Pearl	opponent pick
+61028	137366	FPX	8	EG	13	opponent win	Pearl	team pick
+61040	137401	NAVI	13	DRX	15	opponent win	Bind	team pick
+61040	137401	DRX	15	NAVI	13	team win	Bind	opponent pick
+61040	137402	NAVI	13	DRX	9	team win	Split	opponent pick
+61040	137402	DRX	9	NAVI	13	opponent win	Split	team pick
+61040	137403	NAVI	12	DRX	14	opponent win	Lotus	opponent pick
+61040	137403	DRX	14	NAVI	12	team win	Lotus	opponent pick
+61034	137383	NRG	12	BLG	14	opponent win	Lotus	opponent pick
+61034	137383	BLG	14	NRG	12	team win	Lotus	team pick
+61034	137384	NRG	8	BLG	13	opponent win	Split	team pick
+61034	137384	BLG	13	NRG	8	team win	Split	opponent pick
+61033	137380	FNC	13	ZETA	5	team win	Fracture	opponent pick
+61033	137380	ZETA	5	FNC	13	opponent win	Fracture	team pick
+61033	137381	FNC	13	ZETA	6	team win	Haven	team pick
+61033	137381	ZETA	6	FNC	13	opponent win	Haven	opponent pick
+61030	137371	EG	15	FUT	13	team win	Pearl	team pick
+61030	137371	FUT	13	EG	15	opponent win	Pearl	opponent pick
+61030	137372	EG	13	FUT	9	team win	Bind	opponent pick
+61030	137372	FUT	9	EG	13	opponent win	Bind	team pick
+61023	137350	PRX	13	KRÜ	7	team win	Split	opponent pick
+61023	137350	KRÜ	7	PRX	13	opponent win	Split	team pick
+61023	137351	PRX	13	KRÜ	8	team win	Pearl	team pick
+61023	137351	KRÜ	8	PRX	13	opponent win	Pearl	opponent pick
+61024	137353	EDG	13	GIA	15	opponent win	Split	opponent pick
+61024	137353	GIA	15	EDG	13	team win	Split	team pick
+61024	137354	EDG	13	GIA	11	team win	Bind	team pick
+61024	137354	GIA	11	EDG	13	opponent win	Bind	opponent pick
+61024	137355	EDG	13	GIA	8	team win	Ascent	opponent pick
+61024	137355	GIA	8	EDG	13	opponent win	Ascent	opponent pick
+61035	137386	FNC	13	BLG	2	team win	Haven	opponent pick
+61035	137386	BLG	2	FNC	13	opponent win	Haven	team pick
+61035	137387	FNC	13	BLG	8	team win	Lotus	team pick
+61035	137387	BLG	8	FNC	13	opponent win	Lotus	opponent pick
+61041	137404	TL	2	LOUD	13	opponent win	Haven	opponent pick
+61041	137404	LOUD	13	TL	2	team win	Haven	team pick
+61041	137405	TL	8	LOUD	13	opponent win	Split	team pick
+61041	137405	LOUD	13	TL	8	team win	Split	opponent pick
+61031	137374	FPX	10	T1	13	opponent win	Lotus	team pick
+61031	137374	T1	13	FPX	10	team win	Lotus	opponent pick
+61031	137375	FPX	7	T1	13	opponent win	Bind	opponent pick
+61031	137375	T1	13	FPX	7	team win	Bind	team pick
+61025	137356	PRX	13	EDG	7	team win	Fracture	opponent pick
+61025	137356	EDG	7	PRX	13	opponent win	Fracture	team pick
+61025	137357	PRX	16	EDG	14	team win	Pearl	team pick
+61025	137357	EDG	14	PRX	16	opponent win	Pearl	opponent pick
+61026	137359	KRÜ	10	GIA	13	opponent win	Lotus	team pick
+61026	137359	GIA	13	KRÜ	10	team win	Lotus	opponent pick
+61026	137360	KRÜ	12	GIA	14	opponent win	Pearl	opponent pick
+61026	137360	GIA	14	KRÜ	12	team win	Pearl	team pick
+61036	137389	ZETA	13	NRG	15	opponent win	Bind	team pick
+61036	137389	NRG	15	ZETA	13	team win	Bind	opponent pick
+61036	137390	ZETA	1	NRG	13	opponent win	Haven	opponent pick
+61036	137390	NRG	13	ZETA	1	team win	Haven	team pick
+61042	137407	NAVI	13	LOUD	11	team win	Pearl	team pick
+61042	137407	LOUD	11	NAVI	13	opponent win	Pearl	opponent pick
+61042	137408	NAVI	11	LOUD	13	opponent win	Ascent	opponent pick
+61042	137408	LOUD	13	NAVI	11	team win	Ascent	team pick
+61042	137409	NAVI	11	LOUD	13	opponent win	Bind	opponent pick
+61042	137409	LOUD	13	NAVI	11	team win	Bind	opponent pick
+61032	137377	FUT	13	T1	10	team win	Bind	opponent pick
+61032	137377	T1	10	FUT	13	opponent win	Bind	team pick
+61032	137378	FUT	14	T1	12	team win	Pearl	team pick
+61032	137378	T1	12	FUT	14	opponent win	Pearl	opponent pick
+61027	137362	EDG	13	GIA	6	team win	Split	opponent pick
+61027	137362	GIA	6	EDG	13	opponent win	Split	team pick
+61027	137363	EDG	13	GIA	7	team win	Fracture	team pick
+61027	137363	GIA	7	EDG	13	opponent win	Fracture	opponent pick
+61037	137392	BLG	13	NRG	10	team win	Bind	opponent pick
+61037	137392	NRG	10	BLG	13	opponent win	Bind	team pick
+61037	137393	BLG	13	NRG	5	team win	Ascent	team pick
+61037	137393	NRG	5	BLG	13	opponent win	Ascent	opponent pick
+61185	137618	FNC	11	LOUD	13	opponent win	Ascent	opponent pick
+61185	137618	LOUD	13	FNC	11	team win	Ascent	team pick
+61185	137619	FNC	6	LOUD	13	opponent win	Lotus	team pick
+61185	137619	LOUD	13	FNC	6	team win	Lotus	opponent pick
+61186	137621	PRX	13	FUT	10	team win	Ascent	opponent pick
+61186	137621	FUT	10	PRX	13	opponent win	Ascent	team pick
+61186	137622	PRX	13	FUT	4	team win	Pearl	team pick
+61186	137622	FUT	4	PRX	13	opponent win	Pearl	opponent pick
+61187	137624	DRX	13	BLG	10	team win	Lotus	opponent pick
+61187	137624	BLG	10	DRX	13	opponent win	Lotus	team pick
+61187	137625	DRX	13	BLG	9	team win	Haven	team pick
+61187	137625	BLG	9	DRX	13	opponent win	Haven	opponent pick
+61188	137627	EG	12	EDG	14	opponent win	Split	opponent pick
+61188	137627	EDG	14	EG	12	team win	Split	team pick
+61188	137628	EG	13	EDG	5	team win	Ascent	team pick
+61188	137628	EDG	5	EG	13	opponent win	Ascent	opponent pick
+61188	137629	EG	13	EDG	5	team win	Pearl	opponent pick
+61188	137629	EDG	5	EG	13	opponent win	Pearl	opponent pick
+61193	137644	FNC	13	FUT	5	team win	Split	team pick
+61193	137644	FUT	5	FNC	13	opponent win	Split	opponent pick
+61193	137645	FNC	13	FUT	9	team win	Haven	opponent pick
+61193	137645	FUT	9	FNC	13	opponent win	Haven	team pick
+61194	137647	BLG	4	EDG	13	opponent win	Bind	team pick
+61194	137647	EDG	13	BLG	4	team win	Bind	opponent pick
+61194	137648	BLG	15	EDG	13	team win	Split	opponent pick
+61194	137648	EDG	13	BLG	15	opponent win	Split	team pick
+61194	137649	BLG	10	EDG	13	opponent win	Haven	opponent pick
+61194	137649	EDG	13	BLG	10	team win	Haven	opponent pick
+61189	137630	LOUD	13	PRX	15	opponent win	Lotus	team pick
+61189	137630	PRX	15	LOUD	13	team win	Lotus	opponent pick
+61189	137631	LOUD	13	PRX	2	team win	Split	opponent pick
+61189	137631	PRX	2	LOUD	13	opponent win	Split	team pick
+61189	137632	LOUD	10	PRX	13	opponent win	Pearl	opponent pick
+61189	137632	PRX	13	LOUD	10	team win	Pearl	opponent pick
+61190	137633	DRX	9	EG	13	opponent win	Fracture	opponent pick
+61190	137633	EG	13	DRX	9	team win	Fracture	team pick
+61190	137634	DRX	4	EG	13	opponent win	Lotus	team pick
+61190	137634	EG	13	DRX	4	team win	Lotus	opponent pick
+61196	137653	LOUD	11	EDG	13	opponent win	Bind	opponent pick
+61196	137653	EDG	13	LOUD	11	team win	Bind	team pick
+61196	137654	LOUD	13	EDG	5	team win	Ascent	team pick
+61196	137654	EDG	5	LOUD	13	opponent win	Ascent	opponent pick
+61196	137655	LOUD	13	EDG	11	team win	Haven	opponent pick
+61196	137655	EDG	11	LOUD	13	opponent win	Haven	opponent pick
+61195	137650	DRX	13	FNC	1	team win	Bind	opponent pick
+61195	137650	FNC	1	DRX	13	opponent win	Bind	team pick
+61195	137651	DRX	9	FNC	13	opponent win	Haven	team pick
+61195	137651	FNC	13	DRX	9	team win	Haven	opponent pick
+61195	137652	DRX	6	FNC	13	opponent win	Split	opponent pick
+61195	137652	FNC	13	DRX	6	team win	Split	opponent pick
+61191	137636	PRX	10	EG	13	opponent win	Ascent	opponent pick
+61191	137636	EG	13	PRX	10	team win	Ascent	team pick
+61191	137637	PRX	13	EG	9	team win	Bind	team pick
+61191	137637	EG	9	PRX	13	opponent win	Bind	opponent pick
+61191	137638	PRX	15	EG	13	team win	Pearl	opponent pick
+61191	137638	EG	13	PRX	15	opponent win	Pearl	opponent pick
+61197	137656	FNC	4	LOUD	13	opponent win	Split	team pick
+61197	137656	LOUD	13	FNC	4	team win	Split	opponent pick
+61197	137657	FNC	13	LOUD	9	team win	Ascent	opponent pick
+61197	137657	LOUD	9	FNC	13	opponent win	Ascent	team pick
+61197	137658	FNC	7	LOUD	13	opponent win	Haven	opponent pick
+61197	137658	LOUD	13	FNC	7	team win	Haven	opponent pick
+61198	137659	EG	14	LOUD	12	team win	Ascent	team pick
+61198	137659	LOUD	12	EG	14	opponent win	Ascent	opponent pick
+61198	137660	EG	13	LOUD	4	team win	Lotus	opponent pick
+61198	137660	LOUD	4	EG	13	opponent win	Lotus	team pick
+61198	137661	EG	8	LOUD	13	opponent win	Pearl	team pick
+61198	137661	LOUD	13	EG	8	team win	Pearl	opponent pick
+61198	137662	EG	7	LOUD	13	opponent win	Split	opponent pick
+61198	137662	LOUD	13	EG	7	team win	Split	team pick
+61198	137663	EG	13	LOUD	8	team win	Bind	opponent pick
+61198	137663	LOUD	8	EG	13	opponent win	Bind	opponent pick
+61192	137639	PRX	10	EG	13	opponent win	Split	team pick
+61192	137639	EG	13	PRX	10	team win	Split	opponent pick
+61192	137640	PRX	13	EG	11	team win	Ascent	opponent pick
+61192	137640	EG	11	PRX	13	opponent win	Ascent	team pick
+61192	137641	PRX	5	EG	13	opponent win	Bind	team pick
+61192	137641	EG	13	PRX	5	team win	Bind	opponent pick
+61192	137642	PRX	10	EG	13	opponent win	Lotus	opponent pick
+61192	137642	EG	13	PRX	10	team win	Lotus	team pick
+\.
+
+
+--
+-- TOC entry 3680 (class 0 OID 40986)
+-- Dependencies: 211
+-- Data for Name: players; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.players (player, team, nationality, role) FROM stdin;
+Demon1	Evil Geniuses	United States	Flex
+Boostio	Evil Geniuses	United States	Flex
+ jawgemo	Evil Geniuses	Cambodia	Flex
+Ethan	Evil Geniuses	United States	Flex
+C0M	Evil Geniuses	United States	Flex
+something	Paper Rex	Russia	Duelist
+Jinggg	Paper Rex	Singapore	Duelist
+f0rsakeN	Paper Rex	Indonesia	Flex
+d4v41	Paper Rex	Malaysia	Flex
+mindfreak	Paper Rex	Indonesia	Controller
+aspas	LOUD	Brazil	Duelist
+Less	LOUD	Brazil	Flex
+cauanzin	LOUD	Brazil	Initiator
+tuyz	LOUD	Brazil	Controller
+saadhak	LOUD	Argentina	Flex
+Boaster	FNATIC	United Kingdom	Controller
+Alfajer	FNATIC	Turkey	Sentinal
+Derke	FNATIC	Finland	Duelist
+Leo	FNATIC	Sweden	Initiator
+Chronical	FNATIC	Russia	Flex
+ZmjjKK	EDward Gaming	China	Duelist
+CHICHOO	EDward Gaming	China	Flex
+Smoggy	EDward Gaming	China	Flex
+nobody	EDward Gaming	China	Initiator
+Haodong	EDward Gaming	China	Controller
+MaKo	DRX	South Korea	Controller
+BuZz	DRX	South Korea	Duelist
+Zest	DRX	South Korea	Flex
+stax	DRX	South Korea	Initiator
+Rb	DRX	South Korea	Sentinal
+MrFalin	FUT Esports	Turkey	Flex
+AtaKaptan	FUT Esports	Turkey	Controller
+qRaxs	FUT Esports	Turkey	Initiator
+MOJJ	FUT Esports	Turkey	Flex
+qw1	FUT Esports	Turkey	Duelist
+whzy	Bilibili Gaming	China	Duelist
+Yosemite	Bilibili Gaming	China	Flex
+Biank	Bilibili Gaming	China	Initiator
+Knight	Bilibili Gaming	China	Flex
+rin	Bilibili Gaming	China	Controller
+\.
+
+
+--
+-- TOC entry 3679 (class 0 OID 32813)
+-- Dependencies: 210
+-- Data for Name: playerstats; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.playerstats (game_id, player_id, player, agent, acs, kill, death, assist) FROM stdin;
+119512	6668	SugarZ3ro	omen	114	7	16	8
+119512	488	Rb	killjoy	125	10	10	0
+119513	1395	TENNN	killjoy	111	7	16	1
+119513	11600	Foxy9	jett	178	13	13	0
+119515	4545	Sayaplayer	jett	189	15	12	1
+119515	8497	Monyet	astra	93	6	17	8
+119516	31207	Carpe	breach	108	5	14	3
+119516	8497	Monyet	omen	122	7	12	10
+119517	31207	Carpe	skye	178	13	12	10
+119517	824	AYRIN	killjoy	93	6	15	2
+119518	9800	mindfreak	astra	119	8	13	2
+119518	7718	xnfri	harbor	143	8	14	10
+119519	9801	f0rsakeN	yoru	150	11	22	7
+119519	1002	takej	viper	137	10	17	11
+119521	2334	JessieVash	sova	192	11	12	6
+119521	3977	Crws	astra	182	11	15	10
+119522	2333	BORKUM	viper	116	7	17	7
+119522	2452	Patiphan	harbor	260	20	17	9
+119523	7405	Jremy	raze	201	9	12	5
+119523	3977	Crws	brimstone	171	8	14	3
+119524	7764	Lmemore	cypher	166	12	20	6
+119524	983	TS	astra	205	15	16	10
+119525	9735	2ge	omen	141	11	14	4
+119525	983	TS	omen	140	10	14	6
+119527	999	Laz	sova	118	7	18	7
+119527	7045	fl1pzjder	breach	173	14	17	11
+119528	1000	crow	kayo	147	9	17	16
+119528	7045	fl1pzjder	kayo	144	10	17	15
+119529	999	Laz	fade	82	5	12	5
+119529	4871	xffero	skye	164	9	17	7
+119530	3342	Sushiboys	killjoy	166	12	16	2
+119530	5129	ban	omen	172	14	13	11
+119531	6723	foxz	gekko	158	10	17	2
+119531	31207	Carpe	breach	138	9	14	11
+119533	8504	invy	breach	146	11	18	14
+119533	9801	f0rsakeN	yoru	183	14	20	8
+119534	7405	Jremy	raze	166	13	19	4
+119534	9800	mindfreak	viper	197	16	17	7
+119535	2334	JessieVash	cypher	131	11	11	5
+119535	9800	mindfreak	astra	85	6	17	6
+119536	13039	Meteor	jett	208	16	17	2
+119536	1003	Reita	cypher	130	8	15	4
+119537	13039	Meteor	raze	167	8	15	3
+119537	1002	takej	viper	167	11	9	7
+119538	4056	Sylvan	skye	153	11	15	11
+119538	7718	xnfri	harbor	160	10	17	10
+119539	805	Bazzi	skye	143	13	15	10
+119539	4462	MaKo	omen	102	6	19	12
+119540	9196	t3xture	raze	191	20	27	6
+119540	11600	Foxy9	raze	204	21	26	6
+119542	7764	Lmemore	killjoy	158	8	11	5
+119542	6700	Anthem	breach	151	8	16	6
+119543	7403	EJAY	jett	227	17	16	5
+119543	1002	takej	viper	159	11	19	4
+119545	31207	Carpe	skye	116	5	15	4
+119545	7378	Jinggg	phoenix	127	5	12	9
+119546	5129	ban	jett	90	5	17	2
+119546	7378	Jinggg	raze	153	11	13	6
+119548	1000	crow	harbor	98	7	20	7
+119548	6654	WRONSKI	kayo	148	10	18	15
+119549	1395	TENNN	killjoy	191	17	20	4
+119549	9196	t3xture	jett	160	15	22	3
+119550	1000	crow	breach	179	12	14	8
+119550	9196	t3xture	jett	172	14	19	3
+119551	13788	JitBoyS	raze	95	4	15	2
+119551	11600	Foxy9	raze	311	17	11	5
+119552	13788	JitBoyS	reyna	185	14	20	5
+119552	485	stax	fade	150	13	14	5
+119554	2679	DubsteP	killjoy	142	11	14	2
+119554	13039	Meteor	jett	170	14	16	2
+119555	2334	JessieVash	fade	126	12	18	4
+119555	1960	eKo	breach	100	8	14	11
+119557	17086	something	jett	85	6	14	2
+119557	485	stax	kayo	158	10	13	10
+119558	9800	mindfreak	astra	63	4	15	13
+119558	488	Rb	astra	111	7	12	10
+119560	7405	Jremy	sage	108	8	14	9
+119560	7045	fl1pzjder	skye	116	8	17	9
+119561	2679	DubsteP	jett	73	4	15	2
+119561	7764	Lmemore	cypher	199	14	14	2
+119563	31207	Carpe	kayo	118	5	17	13
+119563	983	TS	omen	176	10	12	9
+119564	4545	Sayaplayer	jett	134	7	15	4
+119564	13039	Meteor	jett	156	10	12	5
+119566	424	Dep	jett	201	15	14	6
+119566	6700	Anthem	kayo	103	8	16	12
+119567	6668	SugarZ3ro	omen	153	9	10	12
+119567	4559	Suggest	killjoy	90	5	17	3
+119569	6723	foxz	skye	98	5	15	9
+119569	3626	Lightningfast	raze	152	11	12	3
+119570	3977	Crws	viper	154	11	21	6
+119570	824	AYRIN	harbor	121	10	18	10
+119572	9800	mindfreak	viper	133	9	15	6
+119572	824	AYRIN	harbor	122	10	12	3
+119573	9801	f0rsakeN	skye	112	7	13	6
+119573	9196	t3xture	sage	120	8	15	7
+119574	9800	mindfreak	astra	95	6	14	5
+119574	6654	WRONSKI	kayo	172	12	18	6
+119575	4827	GodDead	breach	127	9	15	6
+119575	11600	Foxy9	jett	158	10	14	5
+119576	13039	Meteor	raze	175	12	17	10
+119576	485	stax	breach	84	6	15	11
+119577	13039	Meteor	jett	132	7	14	4
+119577	11600	Foxy9	jett	190	10	12	4
+119578	31207	Carpe	breach	155	13	17	6
+119578	7045	fl1pzjder	breach	114	8	17	9
+119579	5129	ban	jett	145	11	10	0
+119579	7764	Lmemore	viper	147	8	13	4
+119581	7405	Jremy	killjoy	179	15	19	8
+119581	4559	Suggest	killjoy	135	10	19	4
+119582	2679	DubsteP	killjoy	168	13	13	2
+119582	7718	xnfri	breach	105	7	16	13
+119584	1000	crow	breach	217	16	17	7
+119584	2452	Patiphan	raze	188	13	17	5
+119585	1395	TENNN	killjoy	148	15	22	6
+119585	3977	Crws	omen	130	12	23	13
+119587	4545	Sayaplayer	jett	218	16	17	4
+119587	10584	Seoldam	jett	137	9	19	3
+119588	31207	Carpe	astra	114	7	19	6
+119588	10584	Seoldam	jett	148	12	17	2
+119589	2489	Munchkin	killjoy	123	10	13	1
+119589	6700	Anthem	skye	88	7	15	6
+119590	1395	TENNN	viper	202	17	16	6
+119590	8504	invy	skye	201	13	21	8
+119591	1395	TENNN	viper	140	11	18	5
+119591	2679	DubsteP	jett	224	16	15	6
+119592	1000	crow	breach	113	11	12	9
+119592	7405	Jremy	raze	164	10	18	4
+119593	824	AYRIN	kayo	189	13	15	8
+119593	983	TS	astra	127	8	19	8
+119594	805	Bazzi	skye	152	10	15	13
+119594	4056	Sylvan	fade	147	11	16	7
+119596	9735	2ge	astra	184	11	14	15
+119596	804	BuZz	killjoy	122	8	19	3
+119597	4871	xffero	astra	133	9	18	9
+119597	485	stax	skye	124	10	14	11
+119598	9735	2ge	harbor	58	2	14	2
+119598	488	Rb	harbor	185	11	8	10
+119599	18035	garnetS	jett	144	11	19	2
+119599	17086	something	jett	199	17	17	3
+119600	3977	Crws	viper	64	3	15	4
+119600	7378	Jinggg	raze	241	13	12	5
+119601	18035	garnetS	raze	181	12	18	6
+119601	9800	mindfreak	brimstone	173	15	16	16
+119602	6723	foxz	skye	174	12	14	12
+119602	1960	eKo	breach	143	11	18	8
+119603	2452	Patiphan	breach	168	11	14	11
+119603	4827	GodDead	kayo	129	5	17	17
+119605	1000	crow	kayo	90	5	14	8
+119605	9803	d4v41	viper	143	11	11	6
+119606	1395	TENNN	killjoy	121	9	18	4
+119606	7378	Jinggg	sage	148	10	14	12
+119608	9747	Emman	skye	211	18	18	11
+119608	4095	SkRossi	jett	137	10	20	5
+119609	4871	xffero	astra	187	18	17	7
+119609	805	Bazzi	fade	163	11	21	8
+119611	2679	DubsteP	jett	109	5	16	1
+119611	474	xeta	harbor	169	9	10	7
+119612	8504	invy	skye	122	9	20	7
+119612	31207	Carpe	gekko	148	11	13	4
+119614	488	Rb	fade	121	9	14	5
+119614	7718	xnfri	skye	117	8	17	6
+119615	11600	Foxy9	jett	206	13	13	6
+119615	1003	Reita	sova	119	7	16	2
+119617	9800	mindfreak	astra	177	12	13	4
+119617	771	k1Ng	viper	95	4	14	5
+119618	9800	mindfreak	omen	171	9	7	5
+119618	4827	GodDead	kayo	148	6	14	5
+119620	1000	crow	breach	126	8	17	10
+119620	31207	Carpe	brimstone	98	6	15	14
+119621	999	Laz	skye	135	10	19	9
+119621	474	xeta	harbor	94	8	18	5
+119622	999	Laz	skye	96	5	14	2
+119622	31207	Carpe	gekko	132	9	8	2
+119623	7405	Jremy	raze	254	16	16	9
+119623	488	Rb	killjoy	144	10	17	2
+119624	2333	BORKUM	omen	159	14	17	12
+119624	804	BuZz	jett	110	9	20	1
+119626	805	Bazzi	skye	131	7	11	11
+119626	7718	xnfri	omen	138	10	15	5
+119627	4095	SkRossi	jett	185	13	17	2
+119627	1002	takej	viper	135	9	16	7
+119629	3977	Crws	viper	164	10	8	5
+119629	7045	fl1pzjder	viper	137	6	14	4
+119630	13788	JitBoyS	killjoy	137	7	15	3
+119630	7403	EJAY	jett	201	13	13	4
+119631	3342	Sushiboys	killjoy	149	9	17	4
+119631	4871	xffero	sova	134	9	13	4
+119632	424	Dep	jett	212	17	16	1
+119632	13039	Meteor	jett	145	9	17	5
+119633	1000	crow	kayo	117	5	15	7
+119633	1960	eKo	sova	145	10	11	6
+119634	1395	TENNN	killjoy	201	12	10	5
+119634	13039	Meteor	raze	155	8	15	3
+119635	5129	ban	harbor	176	16	18	2
+119635	11600	Foxy9	jett	126	11	18	0
+119636	5129	ban	viper	133	10	14	6
+119636	804	BuZz	killjoy	141	8	15	5
+119638	2334	JessieVash	sova	162	13	14	6
+119638	824	AYRIN	harbor	116	8	19	8
+119639	7405	Jremy	killjoy	164	12	18	8
+119639	824	AYRIN	kayo	116	7	18	9
+119641	18035	garnetS	raze	179	15	19	4
+119641	1003	Reita	skye	158	14	18	12
+119642	13788	JitBoyS	cypher	98	5	10	8
+119642	1002	takej	harbor	114	5	15	4
+119644	7403	EJAY	raze	171	12	18	5
+119644	7378	Jinggg	raze	177	13	16	5
+119645	7764	Lmemore	killjoy	194	15	20	2
+119645	17086	something	jett	199	20	17	2
+119677	1395	TENNN	killjoy	123	20	22	2
+119677	8504	invy	breach	134	26	21	8
+119678	1395	TENNN	killjoy	135	18	20	5
+119678	8504	invy	kayo	200	21	18	17
+119680	5129	ban	jett	263	18	16	4
+119680	13039	Meteor	raze	195	14	17	3
+119681	31207	Carpe	kayo	132	9	17	12
+119681	771	k1Ng	killjoy	154	12	16	3
+119682	4545	Sayaplayer	jett	210	16	13	1
+119682	771	k1Ng	killjoy	160	10	16	6
+119683	488	Rb	harbor	129	8	18	19
+119683	7405	Jremy	raze	202	13	19	6
+119684	485	stax	skye	151	9	14	14
+119684	2334	JessieVash	skye	92	6	13	2
+119685	488	Rb	harbor	132	8	8	11
+119685	7405	Jremy	raze	109	5	15	3
+119686	9800	mindfreak	omen	186	14	15	10
+119686	5129	ban	viper	147	11	19	4
+119687	9800	mindfreak	brimstone	137	12	13	7
+119687	474	xeta	breach	135	11	17	7
+119692	2334	JessieVash	sova	146	9	15	10
+119692	771	k1Ng	killjoy	170	12	18	3
+119693	2333	BORKUM	omen	125	9	16	6
+119693	983	TS	omen	223	16	16	13
+119694	2334	JessieVash	skye	121	12	19	10
+119694	983	TS	astra	110	9	15	9
+119689	2489	Munchkin	killjoy	153	14	15	1
+119689	1000	crow	breach	106	8	15	10
+119690	31207	Carpe	gekko	117	11	18	3
+119690	999	Laz	skye	158	15	17	7
+119691	5129	ban	jett	134	12	16	1
+119691	999	Laz	fade	160	13	17	7
+119695	11600	Foxy9	jett	171	11	18	0
+119695	9801	f0rsakeN	neon	148	10	17	3
+119696	4462	MaKo	viper	139	8	15	5
+119696	9800	mindfreak	brimstone	142	9	12	4
+119698	31207	Carpe	brimstone	141	11	17	7
+119698	4827	GodDead	raze	150	9	20	9
+119699	4545	Sayaplayer	jett	210	17	17	6
+119699	1960	eKo	sova	130	9	20	7
+131114	689	Clutch_Fi	omen	95	9	12	5
+131114	29289	YuRiHaNa	skye	97	7	17	4
+119701	485	stax	kayo	129	10	21	14
+119701	5129	ban	omen	128	10	16	12
+119702	488	Rb	neon	197	16	17	4
+119702	31207	Carpe	brimstone	137	12	18	11
+119703	485	stax	breach	137	9	17	22
+119703	5129	ban	omen	134	10	18	7
+119704	488	Rb	kayo	112	8	16	4
+119704	2489	Munchkin	skye	129	8	14	9
+119705	485	stax	skye	205	16	16	8
+119705	4545	Sayaplayer	jett	161	14	18	2
+119706	9801	f0rsakeN	neon	167	11	16	4
+119706	485	stax	breach	103	8	13	6
+119708	9803	d4v41	skye	126	12	22	12
+119708	485	stax	kayo	185	17	27	22
+119712	9801	f0rsakeN	killjoy	234	16	15	8
+119712	488	Rb	killjoy	182	12	15	2
+119714	9800	mindfreak	brimstone	127	7	11	15
+119714	488	Rb	raze	101	5	17	6
+131784	9801	f0rsakeN	cypher	154	9	9	7
+131784	485	stax	omen	82	4	14	6
+117164	9558	Wolfen	jett	185	12	16	3
+117164	2858	SUYGETSU	viper	88	5	15	7
+117165	339	koldamenta	sova	100	12	26	10
+117165	11	Zyppan	skye	136	18	26	18
+117161	5022	Derke	jett	255	13	15	7
+117161	10	rhyme	killjoy	69	4	15	1
+117162	1380	Leo	skye	154	13	13	8
+117162	10	rhyme	astra	100	9	15	6
+117167	562	zeek	harbor	159	9	14	2
+117167	3604	MOJJ	cypher	114	6	7	6
+117168	93	Mixwell	skye	135	10	17	5
+117168	10125	qw1	neon	204	15	16	4
+117170	1427	Redgar	omen	146	9	14	7
+117170	4321	ceNder	killjoy	150	8	13	6
+117171	9780	Jamppi	skye	181	11	8	9
+117171	3672	BONECOLD	brimstone	112	5	14	3
+117172	1427	Redgar	omen	128	10	17	11
+117172	1615	Destrian	harbor	111	8	17	9
+117173	109	ANGE1	cypher	130	13	27	10
+117173	10	rhyme	sage	116	12	25	9
+117174	2858	SUYGETSU	viper	163	17	21	4
+117174	2690	hoody	viper	168	15	20	9
+117175	109	ANGE1	gekko	136	10	11	4
+117175	292	Fit1nho	jett	179	11	18	5
+117176	2625	sh1n	gekko	157	20	24	6
+117176	1481	AsLanM4shadoW	sage	163	20	25	13
+117177	2625	sh1n	gekko	164	14	18	9
+117177	10161	QutionerX	raze	160	12	19	5
+117179	101	soulcas	kayo	140	9	15	13
+117179	8044	MrFaliN	omen	125	11	17	8
+117180	1427	Redgar	omen	169	9	11	14
+117180	10125	qw1	raze	114	6	15	5
+117181	1427	Redgar	omen	164	11	13	11
+117181	1139	qRaxs	kayo	152	9	18	8
+117182	2168	trexx	raze	189	14	19	5
+117182	1615	Destrian	omen	116	8	16	8
+117183	339	koldamenta	brimstone	133	14	19	11
+117183	1615	Destrian	breach	130	12	21	14
+117185	438	Boaster	omen	98	6	16	9
+117185	8041	Brave	omen	147	11	13	3
+117186	458	Chronicle	breach	178	14	15	16
+117186	556	SouhcNi	sova	130	9	17	6
+117187	5022	Derke	raze	199	16	19	2
+117187	568	Turko	breach	142	11	18	6
+117188	93	Mixwell	harbor	180	12	11	6
+117188	2622	Newzera	viper	101	7	12	2
+117189	93	Mixwell	sage	172	9	9	6
+117189	92	ScreaM	raze	106	5	14	0
+119187	1137	Twisten	raze	145	7	15	4
+119187	3604	MOJJ	killjoy	182	10	12	6
+119188	1137	Twisten	jett	182	14	19	3
+119188	1139	qRaxs	gekko	122	8	16	10
+119190	109	ANGE1	omen	173	15	18	12
+119190	556	SouhcNi	sova	122	8	16	7
+119191	384	Shao	omen	221	16	16	7
+119191	1481	AsLanM4shadoW	killjoy	142	11	17	1
+119193	9810	Alfajer	killjoy	109	6	6	4
+119193	3582	keloqz	jett	123	5	15	4
+119194	458	Chronicle	kayo	220	14	13	9
+119194	3582	keloqz	phoenix	135	9	17	6
+119196	1427	Redgar	omen	194	12	12	7
+119196	2622	Newzera	breach	87	5	11	3
+119197	101	soulcas	sage	145	7	8	8
+119197	92	ScreaM	raze	77	2	14	2
+119199	9558	Wolfen	killjoy	132	5	14	5
+119199	292	Fit1nho	jett	209	12	7	1
+119200	9558	Wolfen	jett	71	5	21	3
+119200	10	rhyme	omen	193	17	16	7
+119202	109	ANGE1	gekko	186	11	9	3
+119202	562	zeek	skye	92	4	15	4
+119203	573	cNed	omen	130	9	16	10
+119203	3582	keloqz	neon	191	14	16	3
+119204	573	cNed	jett	167	11	7	0
+119204	3582	keloqz	jett	36	2	15	2
+119206	565	starxo	omen	119	8	16	13
+119206	3604	MOJJ	killjoy	148	11	15	6
+126175	9558	Wolfen	sova	127	13	15	7
+126175	10125	qw1	jett	489	24	10	2
+119208	9780	Jamppi	skye	140	9	18	6
+119208	438	Boaster	astra	144	10	10	9
+119209	101	soulcas	breach	104	6	17	6
+119209	438	Boaster	astra	147	11	10	8
+119211	10	rhyme	sage	132	10	17	6
+119211	8041	Brave	viper	197	16	22	4
+119212	2690	hoody	viper	181	12	10	2
+119212	1481	AsLanM4shadoW	raze	113	4	16	5
+119214	1281	MOLSI	kayo	168	6	9	16
+119214	2625	sh1n	viper	77	3	15	2
+119215	4321	ceNder	cypher	165	11	12	3
+119215	2622	Newzera	skye	51	3	13	4
+119246	93	Mixwell	sage	156	11	18	4
+119246	101	soulcas	sage	190	15	16	3
+119247	3582	keloqz	jett	129	13	21	2
+119247	101	soulcas	viper	96	9	22	6
+119252	8044	MrFaliN	harbor	137	8	16	5
+119252	292	Fit1nho	jett	178	10	11	3
+119253	6510	AtaKaptan	astra	189	17	18	8
+119253	10	rhyme	astra	175	15	18	8
+119255	302	ZE1SH	kayo	96	7	18	9
+119255	109	ANGE1	omen	179	15	19	6
+119256	14669	Nivera	omen	86	5	18	6
+119256	2858	SUYGETSU	viper	166	10	10	7
+119258	568	Turko	kayo	146	11	13	12
+119258	1137	Twisten	jett	161	13	17	1
+119259	1481	AsLanM4shadoW	killjoy	198	17	15	1
+119259	1137	Twisten	jett	94	6	18	3
+119261	3070	nukkye	kayo	151	11	19	13
+119261	1427	Redgar	omen	119	10	19	8
+119262	2690	hoody	viper	92	7	18	8
+119262	1427	Redgar	harbor	92	6	16	8
+119263	10	rhyme	breach	143	12	19	7
+119263	9780	Jamppi	breach	130	11	16	10
+119264	556	SouhcNi	sova	181	16	17	10
+119264	1507	AvovA	omen	103	8	21	8
+119265	1481	AsLanM4shadoW	killjoy	200	15	19	6
+119265	93	Mixwell	viper	170	11	18	10
+119266	1481	AsLanM4shadoW	sage	209	12	10	7
+119266	1144	Boo	harbor	77	3	14	4
+119267	1428	sheydos	breach	88	5	15	6
+119267	302	ZE1SH	viper	211	15	13	4
+119268	565	starxo	omen	148	11	15	15
+119268	4603	xms	killjoy	95	5	13	5
+119269	565	starxo	raze	172	12	20	4
+119269	302	ZE1SH	breach	108	6	17	16
+119270	8044	MrFaliN	sova	123	6	15	3
+119270	438	Boaster	viper	123	8	10	4
+119271	1139	qRaxs	kayo	108	6	16	7
+119271	1380	Leo	fade	128	8	8	2
+119273	3672	BONECOLD	sage	177	13	19	7
+119273	384	Shao	astra	154	12	15	10
+119274	1615	Destrian	breach	98	7	20	11
+119274	11	Zyppan	kayo	137	11	16	7
+119276	1137	Twisten	jett	168	14	22	2
+119276	438	Boaster	astra	139	13	15	9
+119277	1615	Destrian	brimstone	149	10	18	6
+119277	438	Boaster	brimstone	154	11	13	8
+119279	3604	MOJJ	killjoy	111	8	15	2
+119279	4603	xms	killjoy	116	7	16	3
+119280	8044	MrFaliN	sova	192	12	12	8
+119280	92	ScreaM	jett	142	6	18	4
+119282	9558	Wolfen	jett	148	9	10	1
+119282	10161	QutionerX	jett	117	6	15	4
+119283	9558	Wolfen	jett	120	6	17	1
+119283	556	SouhcNi	sova	141	9	8	10
+119284	565	starxo	skye	98	6	15	4
+119284	568	Turko	skye	133	8	9	11
+119285	573	cNed	yoru	163	14	18	4
+119285	457	nAts	cypher	138	10	18	6
+119286	384	Shao	brimstone	138	11	16	10
+119286	1427	Redgar	omen	155	13	19	5
+119288	4181	Cloud	skye	129	9	17	10
+119288	3582	keloqz	jett	251	20	18	2
+119289	10	rhyme	omen	140	14	25	14
+119289	3582	keloqz	neon	175	18	25	9
+119249	339	koldamenta	omen	59	3	15	2
+119249	438	Boaster	astra	141	8	9	8
+119250	339	koldamenta	sova	105	8	15	4
+119250	1380	Leo	sova	151	10	12	8
+119291	2690	hoody	viper	182	11	12	6
+119291	1137	Twisten	jett	129	7	17	2
+119292	292	Fit1nho	kayo	144	11	19	11
+119292	1137	Twisten	jett	161	13	18	2
+119293	10	rhyme	omen	121	10	18	13
+119293	1137	Twisten	jett	163	12	20	6
+119294	3604	MOJJ	killjoy	179	14	17	4
+119294	109	ANGE1	omen	180	13	17	11
+119295	6510	AtaKaptan	astra	128	11	19	11
+119295	384	Shao	astra	123	8	19	12
+119297	92	ScreaM	jett	94	5	15	2
+119297	438	Boaster	astra	135	8	6	7
+119298	302	ZE1SH	viper	169	14	19	1
+119298	9810	Alfajer	killjoy	140	10	14	7
+119300	10161	QutionerX	jett	145	19	15	2
+119300	9780	Jamppi	skye	128	14	15	10
+119301	8041	Brave	omen	188	15	14	7
+119301	1427	Redgar	omen	133	8	15	13
+119302	1481	AsLanM4shadoW	brimstone	131	8	17	3
+119302	101	soulcas	fade	103	7	11	8
+119303	339	koldamenta	brimstone	183	13	14	9
+119303	1507	AvovA	killjoy	172	11	16	6
+119304	339	koldamenta	omen	164	12	17	8
+119304	3582	keloqz	neon	181	15	18	3
+119305	9558	Wolfen	jett	172	15	19	4
+119305	1144	Boo	fade	155	14	16	7
+119306	438	Boaster	astra	129	11	15	3
+119306	573	cNed	jett	109	6	20	5
+119307	438	Boaster	omen	109	7	13	12
+119307	109	ANGE1	yoru	131	11	18	0
+119309	2038	weber	sova	92	7	18	5
+119309	1281	MOLSI	breach	171	16	14	9
+119310	3582	keloqz	neon	134	15	22	3
+119310	3672	BONECOLD	fade	175	16	22	8
+119312	302	ZE1SH	viper	135	15	18	5
+119312	3070	nukkye	killjoy	93	6	17	4
+119313	14669	Nivera	killjoy	145	9	16	1
+119313	10	rhyme	omen	193	13	12	6
+119315	339	koldamenta	brimstone	108	5	16	9
+119315	457	nAts	cypher	148	11	12	8
+119316	339	koldamenta	astra	144	12	20	5
+119316	9780	Jamppi	neon	150	11	21	4
+119317	339	koldamenta	omen	89	6	19	7
+119317	1427	Redgar	reyna	184	13	15	6
+119318	556	SouhcNi	harbor	97	5	15	7
+119318	1139	qRaxs	kayo	157	9	14	10
+119319	556	SouhcNi	sova	134	8	15	6
+119319	10125	qw1	jett	197	15	15	3
+130941	10	rhyme	harbor	121	6	16	11
+130941	8044	MrFaliN	omen	179	11	12	9
+130942	4181	Cloud	sova	175	13	21	9
+130942	3604	MOJJ	killjoy	81	6	17	4
+130944	1427	Redgar	omen	110	7	17	7
+130944	1281	MOLSI	killjoy	160	12	13	2
+130945	1427	Redgar	omen	130	9	12	12
+130945	1281	MOLSI	raze	186	15	18	4
+130946	457	nAts	cypher	195	19	14	7
+130946	4321	ceNder	killjoy	129	10	19	3
+130947	438	Boaster	brimstone	133	9	15	13
+130947	10125	qw1	raze	166	13	18	2
+130948	9810	Alfajer	cypher	162	10	8	3
+130948	3604	MOJJ	cypher	86	3	15	2
+130949	438	Boaster	astra	114	6	6	6
+130949	10125	qw1	neon	81	3	14	1
+130950	109	ANGE1	cypher	119	9	19	8
+130950	312	Sayf	raze	151	12	20	5
+130951	109	ANGE1	kayo	108	7	18	12
+130951	1427	Redgar	omen	161	13	17	10
+130962	6510	AtaKaptan	astra	148	11	13	4
+130962	3672	BONECOLD	sage	104	8	18	2
+130963	6510	AtaKaptan	breach	72	4	15	9
+130963	1281	MOLSI	breach	131	9	15	16
+130964	10125	qw1	neon	117	7	9	4
+130964	3672	BONECOLD	fade	128	8	16	3
+130959	573	cNed	jett	200	16	15	3
+130959	4181	Cloud	skye	150	12	20	2
+130960	384	Shao	fade	148	10	16	9
+130960	10	rhyme	omen	147	12	18	9
+130953	458	Chronicle	viper	166	15	18	8
+130953	457	nAts	viper	147	10	18	13
+130954	9810	Alfajer	cypher	129	8	13	7
+130954	101	soulcas	fade	76	4	16	6
+130965	573	cNed	yoru	163	11	18	2
+130965	6510	AtaKaptan	viper	166	12	15	5
+130966	109	ANGE1	cypher	186	13	19	7
+130966	1139	qRaxs	kayo	206	15	14	7
+130968	312	Sayf	jett	200	13	14	3
+130968	8044	MrFaliN	sova	130	8	14	4
+130969	9780	Jamppi	killjoy	169	16	25	7
+130969	1139	qRaxs	kayo	159	17	27	10
+130970	9780	Jamppi	skye	187	13	10	7
+130970	1139	qRaxs	kayo	114	6	16	10
+130956	438	Boaster	astra	117	9	18	5
+130956	101	soulcas	fade	122	10	15	8
+130957	458	Chronicle	kayo	119	8	18	21
+130957	457	nAts	cypher	182	14	21	10
+130958	458	Chronicle	breach	128	8	15	7
+130958	457	nAts	killjoy	187	15	13	2
+131673	458	Chronicle	breach	142	12	18	12
+131673	312	Sayf	raze	161	13	18	5
+118923	882	dephh	breach	128	11	15	11
+118923	4147	Cryocells	jett	160	13	20	3
+118924	882	dephh	astra	131	11	16	11
+118924	3880	bang	astra	130	13	19	6
+118925	882	dephh	kayo	221	21	19	13
+118925	733	stellar	viper	138	12	19	4
+118926	1311	Melser	astra	146	11	15	9
+118926	939	mwzera	raze	232	18	20	6
+118927	2610	Klaus	sova	47	3	17	5
+118927	8873	dgzin	jett	246	14	14	5
+118929	6193	cauanzin	skye	215	14	11	7
+118929	651	frz	kayo	48	2	16	5
+118930	727	saadhak	gekko	139	10	20	17
+118930	651	frz	killjoy	164	14	15	3
+118931	8447	Less	killjoy	109	9	16	1
+118931	783	murizzz	breach	133	11	17	11
+118932	11225	Ethan	skye	173	14	18	8
+118932	7873	leaf	killjoy	236	17	18	5
+118933	864	BcJ	brimstone	166	12	19	13
+118933	8742	jakee	brimstone	179	11	20	11
+118935	3828	Tacolilla	jett	109	9	18	1
+118935	4	crashies	killjoy	157	13	17	2
+118936	24007	Shyy	killjoy	171	9	12	6
+118936	98	ardiis	raze	145	6	16	7
+118938	7871	Xeppaa	raze	208	13	15	3
+118938	727	saadhak	gekko	157	10	18	9
+118939	729	Zellsis	killjoy	154	11	18	3
+118939	2408	tuyz	omen	173	13	11	12
+118940	8742	jakee	astra	108	6	17	2
+118940	6193	cauanzin	skye	227	18	14	3
+118941	7603	Mazino	harbor	193	15	20	13
+118941	939	mwzera	skye	106	8	18	7
+118942	3828	Tacolilla	jett	140	9	14	2
+118942	1575	Quick	sage	110	7	12	5
+118943	3828	Tacolilla	jett	167	12	20	6
+118943	8872	Mazin	kayo	122	8	20	16
+118944	817	FiNESSE	skye	145	12	12	13
+118944	9	TenZ	jett	111	8	16	5
+118945	261	Victor	kayo	183	7	11	15
+118945	882	dephh	harbor	85	4	15	2
+118947	783	murizzz	kayo	177	11	18	15
+118947	2462	keznit	jett	170	13	18	4
+118948	5351	RgLMeister	omen	117	10	16	12
+118948	2610	Klaus	gekko	148	11	19	3
+118949	651	frz	killjoy	186	16	17	4
+118949	2610	Klaus	skye	118	8	20	16
+118950	619	C0M	sova	96	7	17	5
+118950	601	Asuna	gekko	165	14	14	8
+118951	3993	jawgemo	harbor	100	5	15	6
+118951	4147	Cryocells	omen	116	5	14	11
+118953	7873	leaf	neon	235	17	13	3
+118953	4147	Cryocells	jett	154	10	15	3
+118954	8742	jakee	omen	152	14	21	12
+118954	3880	bang	omen	200	17	21	11
+118956	817	FiNESSE	killjoy	186	13	20	3
+118956	651	frz	killjoy	136	11	18	4
+118957	817	FiNESSE	skye	159	13	26	16
+118957	8673	heat	jett	173	19	23	1
+118958	817	FiNESSE	breach	142	12	23	11
+118958	13093	jzz	skye	134	15	21	5
+118959	725	nzr	raze	185	15	16	5
+118959	659	Sacy	viper	141	11	18	6
+118960	24007	Shyy	killjoy	156	12	18	3
+118960	9	TenZ	jett	130	9	18	7
+118961	725	nzr	skye	134	6	10	12
+118961	659	Sacy	viper	119	7	15	3
+118962	26171	Demon1	killjoy	168	13	18	5
+118962	1311	Melser	viper	156	12	17	9
+118963	3993	jawgemo	omen	133	10	17	9
+118963	2610	Klaus	sova	150	13	19	7
+118964	604	Boostio	killjoy	199	14	13	5
+118964	2462	keznit	raze	145	8	18	6
+118965	727	saadhak	raze	156	11	18	4
+118965	939	mwzera	raze	193	12	22	9
+118966	6193	cauanzin	sova	135	10	12	5
+118966	939	mwzera	sova	116	7	14	3
+118968	2408	tuyz	harbor	140	8	17	14
+118968	263	Marved	viper	200	14	11	5
+118969	727	saadhak	viper	121	9	16	10
+118969	882	dephh	breach	65	5	20	8
+118970	8447	Less	killjoy	130	8	11	5
+118970	882	dephh	kayo	82	6	17	7
+118971	8549	kiNgg	viper	249	14	11	8
+118971	13093	jzz	skye	102	4	16	6
+118972	24007	Shyy	killjoy	199	12	10	2
+118972	783	murizzz	viper	99	4	15	4
+118974	2610	Klaus	sova	169	9	10	9
+118974	1533	Derrek	sova	83	5	16	3
+118975	2764	DaveeyS	raze	144	10	18	8
+118975	733	stellar	cypher	151	11	17	8
+118976	2764	DaveeyS	breach	80	4	15	8
+118976	1533	Derrek	breach	121	8	11	8
+118977	3993	jawgemo	omen	147	15	22	15
+118977	8873	dgzin	jett	189	19	21	1
+118978	26171	Demon1	brimstone	93	6	12	4
+118978	939	mwzera	fade	169	11	18	3
+118979	619	C0M	sova	140	10	20	5
+118979	1711	Khalil	omen	185	14	15	17
+118980	817	FiNESSE	breach	160	8	11	10
+118980	8742	jakee	omen	70	8	16	7
+118981	261	Victor	viper	140	10	17	3
+118981	7871	Xeppaa	skye	123	9	13	14
+118982	98	ardiis	killjoy	90	7	16	1
+118982	7871	Xeppaa	skye	162	11	14	12
+118983	783	murizzz	viper	110	6	15	6
+118983	683	pANcada	killjoy	136	8	10	5
+118984	8673	heat	raze	129	9	17	4
+118984	683	pANcada	killjoy	156	9	15	4
+118986	24007	Shyy	killjoy	214	23	22	5
+118986	733	stellar	killjoy	136	10	19	3
+118987	7603	Mazino	omen	141	10	18	7
+118987	601	Asuna	gekko	159	14	14	7
+118988	725	nzr	skye	162	14	15	6
+118988	733	stellar	viper	161	15	17	3
+118989	3993	jawgemo	raze	237	13	14	4
+118989	2408	tuyz	astra	102	4	14	4
+118990	3993	jawgemo	omen	148	11	21	10
+118990	6193	cauanzin	skye	134	10	17	10
+118991	619	C0M	fade	104	3	13	5
+118991	727	saadhak	killjoy	248	13	7	3
+118992	729	Zellsis	killjoy	136	9	12	5
+118992	1575	Quick	killjoy	84	6	14	3
+118993	7873	leaf	skye	188	15	17	5
+118993	8872	Mazin	viper	160	12	17	5
+118995	4	crashies	sova	168	13	14	9
+118995	2610	Klaus	sova	127	10	17	4
+118996	817	FiNESSE	killjoy	218	13	9	1
+118996	2764	DaveeyS	kayo	77	3	14	3
+118998	817	FiNESSE	viper	215	13	16	17
+118998	733	stellar	viper	200	12	18	10
+118999	98	ardiis	jett	184	10	12	1
+118999	733	stellar	killjoy	133	6	12	2
+119001	13093	jzz	skye	134	12	16	9
+119001	1575	Quick	harbor	124	10	16	11
+119002	13093	jzz	skye	165	11	17	6
+119002	1711	Khalil	astra	120	8	9	7
+119004	16003	runi	viper	124	7	9	4
+119004	4004	zekken	raze	180	9	13	4
+119005	7871	Xeppaa	raze	218	16	13	4
+119005	4004	zekken	raze	105	6	15	3
+119007	24007	Shyy	skye	115	7	16	16
+119007	619	C0M	viper	108	9	15	4
+119008	7603	Mazino	harbor	225	18	17	11
+119008	11225	Ethan	skye	125	9	19	11
+119009	24007	Shyy	killjoy	148	11	15	6
+119009	3993	jawgemo	omen	144	10	18	9
+119010	2408	tuyz	harbor	63	3	17	8
+119010	2610	Klaus	skye	153	12	17	13
+119011	8447	Less	killjoy	173	12	16	5
+119011	2021	axeddy	kayo	150	12	19	8
+119012	727	saadhak	raze	160	10	16	5
+119012	2021	axeddy	raze	139	10	19	4
+119013	604	Boostio	killjoy	111	8	14	4
+119013	263	Marved	brimstone	113	7	14	5
+119014	604	Boostio	killjoy	167	10	11	5
+119014	263	Marved	viper	95	5	16	6
+119016	16003	runi	breach	134	9	8	11
+119016	13093	jzz	raze	119	7	15	3
+119017	8742	jakee	omen	126	8	10	11
+119017	783	murizzz	viper	109	5	13	4
+119019	727	saadhak	kayo	150	8	12	10
+119019	3880	bang	omen	78	5	14	10
+119020	727	saadhak	raze	168	14	21	5
+119020	733	stellar	cypher	129	11	19	8
+119022	24007	Shyy	killjoy	143	9	9	2
+119022	1311	Melser	omen	53	3	14	3
+119023	3828	Tacolilla	jett	107	8	9	0
+119023	2021	axeddy	raze	123	6	14	2
+119025	817	FiNESSE	viper	151	12	20	5
+119025	1575	Quick	viper	160	14	18	4
+119026	98	ardiis	jett	170	12	19	8
+119026	1711	Khalil	killjoy	154	13	16	3
+119027	98	ardiis	jett	208	14	12	2
+119027	1711	Khalil	killjoy	99	5	13	4
+119028	8872	Mazin	viper	120	10	15	8
+119028	733	stellar	harbor	129	10	18	6
+119029	8873	dgzin	neon	170	11	17	3
+119029	601	Asuna	skye	156	9	11	11
+119030	1575	Quick	viper	158	12	19	8
+119030	3880	bang	omen	187	15	15	12
+119031	604	Boostio	killjoy	150	9	5	3
+119031	13093	jzz	raze	114	5	15	4
+119032	619	C0M	sova	158	11	10	3
+119032	783	murizzz	fade	122	8	14	4
+119034	2021	axeddy	viper	121	9	19	10
+119034	263	Marved	viper	135	12	19	5
+119035	2610	Klaus	skye	125	10	19	8
+119035	659	Sacy	skye	164	13	15	9
+119037	817	FiNESSE	viper	85	5	11	4
+119037	6193	cauanzin	skye	154	9	16	5
+119038	817	FiNESSE	viper	159	12	16	9
+119038	8480	aspas	jett	166	11	20	4
+119040	3828	Tacolilla	raze	156	9	17	5
+119040	8742	jakee	omen	133	11	13	2
+119041	7603	Mazino	omen	135	7	15	10
+119041	729	Zellsis	breach	143	8	11	12
+119231	683	pANcada	viper	125	10	12	2
+119231	1575	Quick	viper	140	9	15	8
+119232	4004	zekken	breach	117	7	17	10
+119232	8872	Mazin	harbor	168	11	14	6
+119233	683	pANcada	viper	161	21	22	7
+119233	939	mwzera	raze	187	21	30	11
+119234	261	Victor	raze	198	15	14	6
+119234	3993	jawgemo	raze	239	16	19	6
+119235	98	ardiis	jett	221	16	15	2
+119235	3993	jawgemo	raze	153	10	16	3
+119237	8742	jakee	omen	160	16	21	12
+119237	1311	Melser	harbor	195	18	20	7
+119238	7871	Xeppaa	skye	191	12	16	6
+119238	2610	Klaus	sova	131	9	11	7
+119239	7873	leaf	skye	150	11	18	6
+119239	2610	Klaus	skye	132	10	20	11
+119240	8549	kiNgg	breach	134	10	14	4
+119240	6193	cauanzin	skye	143	8	15	8
+119241	3828	Tacolilla	jett	75	4	17	1
+119241	6193	cauanzin	sova	166	10	7	8
+119243	941	TxoziN	killjoy	161	8	12	6
+119243	733	stellar	killjoy	179	11	16	3
+119244	13093	jzz	jett	126	11	19	2
+119244	1533	Derrek	killjoy	144	10	18	9
+119245	783	murizzz	viper	179	12	16	8
+119245	733	stellar	viper	118	6	16	9
+123159	3828	Tacolilla	jett	143	9	14	1
+123159	1575	Quick	killjoy	191	13	12	0
+123160	7603	Mazino	harbor	131	17	28	12
+123160	1575	Quick	viper	197	22	30	15
+123161	24007	Shyy	skye	92	5	14	7
+123161	8872	Mazin	skye	160	10	10	12
+123162	817	FiNESSE	breach	127	9	19	12
+123162	11225	Ethan	breach	153	13	18	6
+123163	261	Victor	raze	116	10	24	4
+123163	619	C0M	viper	168	15	19	9
+123164	261	Victor	kayo	93	4	17	13
+123164	11225	Ethan	kayo	143	10	13	11
+123165	8480	aspas	jett	130	9	8	3
+123165	8873	dgzin	jett	96	5	15	2
+123166	2408	tuyz	omen	194	12	10	7
+123166	8873	dgzin	jett	135	8	15	3
+123168	16003	runi	breach	125	7	17	5
+123168	604	Boostio	killjoy	220	15	13	1
+123169	7873	leaf	jett	116	5	15	0
+123169	11225	Ethan	skye	147	9	5	7
+123182	8872	Mazin	skye	110	10	15	4
+123182	98	ardiis	sage	202	15	16	6
+123183	8872	Mazin	harbor	102	9	17	9
+123183	817	FiNESSE	viper	90	8	12	6
+123179	7873	leaf	jett	171	12	14	4
+123179	7603	Mazino	harbor	158	12	16	7
+123180	7873	leaf	neon	137	12	18	2
+123180	7603	Mazino	omen	163	13	17	12
+123181	16003	runi	viper	217	13	12	4
+123181	7603	Mazino	omen	89	5	15	6
+123171	727	saadhak	kayo	151	9	15	15
+123171	26171	Demon1	brimstone	199	16	16	3
+123172	8447	Less	killjoy	168	15	17	3
+123172	604	Boostio	killjoy	154	11	17	5
+123173	727	saadhak	chamber	150	8	10	1
+123173	604	Boostio	astra	175	8	15	5
+123185	7873	leaf	jett	182	14	17	1
+123185	261	Victor	killjoy	124	9	19	5
+123186	8742	jakee	omen	148	10	17	4
+123186	261	Victor	neon	150	10	18	7
+123187	16003	runi	sova	157	13	20	3
+123187	817	FiNESSE	viper	178	15	16	5
+123188	604	Boostio	killjoy	166	13	18	3
+123188	98	ardiis	jett	150	11	17	3
+123189	26171	Demon1	jett	146	10	19	1
+123189	4	crashies	sova	144	7	13	9
+123190	604	Boostio	killjoy	177	13	21	3
+123190	817	FiNESSE	viper	122	9	15	6
+123191	3993	jawgemo	raze	170	8	17	6
+123191	98	ardiis	jett	258	13	12	10
+123174	8480	aspas	jett	111	8	13	1
+123174	4164	s0m	omen	127	10	13	7
+123175	8447	Less	viper	149	11	18	5
+123175	817	FiNESSE	viper	145	10	20	7
+123176	6193	cauanzin	breach	166	14	18	4
+123176	817	FiNESSE	breach	136	10	19	10
+132557	10125	qw1	jett	139	8	13	2
+132557	604	Boostio	astra	160	11	11	3
+132558	10125	qw1	neon	188	18	22	2
+132558	619	C0M	breach	138	12	19	12
+132554	11600	Foxy9	raze	207	14	20	6
+132554	7135	hfmi0dzjc9z7	raze	173	14	17	5
+132555	11600	Foxy9	jett	241	16	17	4
+132555	25949	bunt	harbor	153	10	19	10
+132542	15559	CHICHOO	killjoy	167	11	20	9
+132542	474	xeta	breach	96	7	18	11
+132543	3017	nobody	sova	192	15	12	4
+132543	5129	ban	omen	134	9	18	4
+132544	3017	nobody	skye	177	15	19	8
+132544	31207	Carpe	skye	126	11	21	16
+132539	817	FiNESSE	killjoy	131	10	13	3
+132539	109	ANGE1	omen	114	7	17	9
+132540	4	crashies	skye	157	14	19	15
+132540	11	Zyppan	fade	155	15	18	6
+132541	817	FiNESSE	viper	196	13	12	4
+132541	384	Shao	killjoy	103	7	12	2
+132560	485	stax	breach	109	5	15	11
+132560	619	C0M	sova	150	9	11	8
+132561	485	stax	kayo	111	7	17	9
+132561	604	Boostio	killjoy	168	15	13	2
+132545	817	FiNESSE	viper	107	7	17	7
+132545	474	xeta	harbor	127	9	14	7
+132546	98	ardiis	sage	145	10	14	9
+132546	5129	ban	harbor	88	7	17	2
+132547	817	FiNESSE	viper	145	12	17	10
+132547	4545	Sayaplayer	jett	174	15	16	3
+132563	3028	Life	jett	179	13	13	3
+132563	3604	MOJJ	killjoy	225	18	17	2
+132564	7135	hfmi0dzjc9z7	sova	114	7	16	5
+132564	3604	MOJJ	killjoy	180	11	11	4
+132565	7135	hfmi0dzjc9z7	skye	126	8	16	3
+132565	8044	MrFaliN	omen	133	9	14	10
+132548	2858	SUYGETSU	killjoy	165	18	20	5
+132548	15559	CHICHOO	viper	103	11	21	8
+132549	11	Zyppan	skye	151	15	21	4
+132549	4742	Smoggy	jett	185	17	20	6
+132566	772	Zest	brimstone	126	9	16	13
+132566	1139	qRaxs	kayo	159	12	16	8
+132567	485	stax	breach	171	11	17	16
+132567	3604	MOJJ	cypher	147	12	15	2
+132568	488	Rb	killjoy	263	16	10	2
+132568	1139	qRaxs	gekko	131	7	16	3
+132551	5129	ban	jett	136	6	15	3
+132551	3017	nobody	skye	171	11	9	7
+132552	4545	Sayaplayer	jett	123	7	18	2
+132552	4742	Smoggy	breach	114	7	16	9
+132701	727	saadhak	kayo	111	6	16	8
+132701	604	Boostio	killjoy	150	9	13	6
+132702	727	saadhak	kayo	133	8	16	7
+132702	604	Boostio	killjoy	161	10	14	5
+132698	457	nAts	killjoy	193	13	15	3
+132698	4742	Smoggy	breach	127	10	17	8
+132699	101	soulcas	sage	152	12	18	5
+132699	4720	Haodong	astra	142	11	13	4
+132700	457	nAts	viper	156	13	19	7
+132700	15559	CHICHOO	cypher	139	11	17	5
+132695	5022	Derke	raze	180	13	16	3
+132695	817	FiNESSE	breach	109	8	18	5
+132696	438	Boaster	brimstone	162	9	8	10
+132696	98	ardiis	sage	84	4	15	2
+132692	24679	cgrs	skye	107	6	16	15
+132692	485	stax	skye	128	10	18	8
+132693	9801	f0rsakeN	harbor	124	9	17	9
+132693	804	BuZz	raze	230	17	21	4
+132721	4720	Haodong	omen	175	12	11	13
+132721	6193	cauanzin	skye	146	9	17	4
+132722	4742	Smoggy	breach	142	11	15	12
+132722	727	saadhak	kayo	128	8	18	10
+132718	772	Zest	harbor	161	12	19	10
+132718	4164	s0m	harbor	166	14	19	14
+132719	4462	MaKo	omen	88	5	16	5
+132719	817	FiNESSE	viper	114	7	9	8
+132707	101	soulcas	viper	123	5	14	5
+132707	3993	jawgemo	raze	200	11	10	4
+132708	1427	Redgar	omen	144	11	16	10
+132708	26171	Demon1	jett	157	12	18	3
+132704	24679	cgrs	gekko	104	6	17	6
+132704	1380	Leo	fade	181	13	9	6
+132705	9803	d4v41	skye	142	9	16	6
+132705	1380	Leo	skye	151	10	16	10
+132724	1427	Redgar	omen	137	11	18	14
+132724	261	Victor	killjoy	171	14	20	7
+132725	1427	Redgar	omen	130	9	17	10
+132725	817	FiNESSE	killjoy	143	10	18	3
+132726	1427	Redgar	omen	65	3	13	4
+132726	4	crashies	skye	117	8	9	7
+132727	24679	cgrs	breach	125	10	21	13
+132727	4720	Haodong	brimstone	139	12	22	9
+132728	7378	Jinggg	raze	189	14	21	5
+132728	3520	ZmjjKK	raze	222	17	18	4
+132729	9801	f0rsakeN	cypher	178	14	15	11
+132729	15559	CHICHOO	cypher	127	11	16	1
+132710	438	Boaster	astra	175	9	8	13
+132710	26171	Demon1	jett	134	7	16	2
+132711	5022	Derke	raze	186	13	17	4
+132711	11225	Ethan	breach	167	12	17	12
+132712	5022	Derke	raze	141	11	22	3
+132712	604	Boostio	astra	169	12	21	10
+132730	4	crashies	skye	174	17	22	8
+132730	9800	mindfreak	astra	127	12	16	8
+132731	4	crashies	skye	70	5	8	11
+132731	9800	mindfreak	omen	100	5	17	5
+132732	817	FiNESSE	viper	188	14	18	9
+132732	24679	cgrs	gekko	136	13	14	2
+132733	3993	jawgemo	raze	203	13	15	7
+132733	24679	cgrs	breach	125	9	15	7
+132734	604	Boostio	killjoy	209	20	21	2
+132734	24679	cgrs	gekko	122	10	18	8
+132735	11225	Ethan	skye	113	8	17	5
+132735	24679	cgrs	skye	148	12	16	8
+132736	11225	Ethan	skye	130	7	10	14
+132736	9801	f0rsakeN	jett	212	13	17	2
+132737	604	Boostio	killjoy	151	9	17	4
+132737	24679	cgrs	fade	166	11	18	9
+132713	458	Chronicle	viper	128	9	14	9
+132713	3993	jawgemo	omen	119	8	16	6
+132714	438	Boaster	omen	137	11	15	13
+132714	619	C0M	viper	113	8	20	4
+132715	438	Boaster	brimstone	140	10	16	16
+132715	3993	jawgemo	raze	144	11	23	4
+135648	2452	Patiphan	brimstone	195	15	13	12
+135648	7718	xnfri	raze	111	6	16	3
+135649	3977	Crws	kayo	150	12	12	11
+135649	10584	Seoldam	jett	142	9	17	5
+135651	7764	Lmemore	viper	209	18	18	6
+135651	4095	SkRossi	jett	150	12	20	3
+135652	7764	Lmemore	killjoy	150	11	18	4
+135652	4095	SkRossi	jett	130	12	16	2
+135654	4056	Sylvan	astra	122	9	20	11
+135654	2452	Patiphan	harbor	143	12	20	4
+135655	4056	Sylvan	omen	154	10	18	11
+135655	6723	foxz	skye	157	12	20	13
+135656	13039	Meteor	jett	222	20	24	4
+135656	13788	JitBoyS	killjoy	179	18	21	3
+135657	6668	SugarZ3ro	omen	106	6	14	5
+135657	7403	EJAY	jett	198	12	7	2
+135658	1000	crow	skye	154	11	16	8
+135658	7403	EJAY	jett	125	8	18	2
+135659	999	Laz	cypher	158	21	31	14
+135659	7045	fl1pzjder	kayo	160	20	31	18
+135660	7405	Jremy	raze	226	15	13	4
+135660	771	k1Ng	killjoy	86	6	16	1
+135661	2334	JessieVash	sova	181	12	15	10
+135661	4827	GodDead	kayo	130	6	18	13
+135663	1395	TENNN	raze	210	15	14	5
+135663	7405	Jremy	killjoy	142	10	16	0
+135664	424	Dep	neon	192	12	14	5
+135664	2679	DubsteP	jett	89	5	17	3
+135666	7045	fl1pzjder	breach	187	10	18	7
+135666	983	TS	sova	123	7	10	7
+135667	7764	Lmemore	killjoy	243	13	8	3
+135667	771	k1Ng	cypher	67	3	15	1
+135668	7764	Lmemore	killjoy	86	6	17	2
+135668	983	TS	sova	113	8	14	8
+135669	2333	BORKUM	omen	102	8	17	10
+135669	4827	GodDead	breach	126	11	12	8
+135670	2679	DubsteP	jett	133	12	17	2
+135670	771	k1Ng	killjoy	142	11	19	4
+135671	7405	Jremy	killjoy	143	7	5	5
+135671	13039	Meteor	jett	156	6	14	4
+135672	2334	JessieVash	sova	130	9	13	6
+135672	983	TS	gekko	148	9	14	8
+135674	1000	crow	breach	161	14	17	14
+135674	8504	invy	breach	105	9	18	14
+135675	6668	SugarZ3ro	omen	138	10	19	8
+135675	8504	invy	kayo	124	11	12	10
+135676	999	Laz	viper	227	15	13	6
+135676	2334	JessieVash	skye	114	7	18	6
+135677	424	Dep	neon	206	14	13	4
+135677	7405	Jremy	killjoy	141	8	16	1
+135070	1144	Boo	skye	72	4	16	6
+135070	1428	sheydos	breach	117	9	12	12
+135071	1144	Boo	fade	79	7	14	1
+135071	339	koldamenta	astra	64	5	11	9
+135072	29873	benjyfishy	killjoy	107	8	15	3
+135072	339	koldamenta	omen	164	11	11	13
+135073	556	SouhcNi	sova	144	11	16	8
+135073	302	ZE1SH	breach	75	7	17	9
+135074	1481	AsLanM4shadoW	killjoy	141	9	19	5
+135074	302	ZE1SH	killjoy	129	9	10	1
+135075	1481	AsLanM4shadoW	sage	126	10	21	5
+135075	2625	sh1n	skye	146	13	19	11
+135076	109	ANGE1	omen	129	7	18	4
+135076	339	koldamenta	astra	104	8	10	8
+135077	2858	SUYGETSU	cypher	118	7	15	0
+135077	1428	sheydos	viper	160	8	7	8
+135079	292	Fit1nho	jett	175	13	20	7
+135079	302	ZE1SH	skye	120	10	18	8
+135080	10	rhyme	breach	207	13	13	5
+135080	4603	xms	omen	91	6	14	4
+135082	339	koldamenta	omen	88	8	18	11
+135082	4181	Cloud	sova	171	15	16	9
+135083	1428	sheydos	killjoy	91	5	14	3
+135083	10	rhyme	astra	138	8	11	8
+135096	109	ANGE1	brimstone	171	11	14	4
+135096	4603	xms	omen	68	6	17	2
+135097	109	ANGE1	omen	180	11	18	8
+135097	14669	Nivera	sova	123	8	14	10
+135098	109	ANGE1	sova	192	12	14	6
+135098	14669	Nivera	killjoy	90	6	15	2
+135099	9558	Wolfen	jett	191	17	21	3
+135099	384	Shao	fade	125	10	14	15
+135100	339	koldamenta	astra	94	6	17	11
+135100	109	ANGE1	sova	124	8	18	7
+135101	339	koldamenta	brimstone	99	6	17	11
+135101	573	cNed	killjoy	100	9	16	2
+135085	4181	Cloud	yoru	149	12	22	4
+135085	2858	SUYGETSU	viper	120	10	20	5
+135086	10	rhyme	raze	143	11	14	3
+135086	109	ANGE1	brimstone	57	3	19	7
+135087	2690	hoody	chamber	125	9	13	4
+135087	109	ANGE1	omen	168	12	20	10
+134548	941	TxoziN	viper	79	3	18	5
+134548	1294	NagZ	viper	100	6	10	11
+134549	941	TxoziN	killjoy	139	9	12	6
+134549	2610	Klaus	skye	143	11	15	14
+134554	8873	dgzin	jett	188	17	17	6
+134554	1311	Melser	astra	126	12	19	8
+134555	1711	Khalil	omen	92	5	13	3
+134555	1294	NagZ	killjoy	122	8	9	2
+134556	1671	kon4n	sova	184	14	17	10
+134556	2764	DaveeyS	cypher	128	11	21	5
+134551	683	pANcada	killjoy	89	8	18	4
+134551	1533	Derrek	harbor	137	14	17	6
+134552	4004	zekken	raze	238	16	15	5
+134552	1533	Derrek	skye	133	8	18	6
+134553	263	Marved	brimstone	143	9	14	14
+134553	1533	Derrek	skye	94	5	16	9
+134557	729	Zellsis	harbor	79	6	12	7
+134557	263	Marved	astra	103	7	18	2
+134558	16003	runi	fade	82	5	15	3
+134558	4004	zekken	raze	206	11	13	7
+134559	8742	jakee	astra	163	13	14	5
+134559	263	Marved	astra	132	10	17	11
+134560	3828	Tacolilla	jett	77	5	16	0
+134560	1294	NagZ	viper	138	8	13	6
+134561	7603	Mazino	omen	144	9	18	11
+134561	1311	Melser	omen	136	10	14	3
+134563	729	Zellsis	killjoy	182	11	8	2
+134563	2462	keznit	jett	124	7	15	6
+134564	7871	Xeppaa	skye	102	5	17	3
+134564	2462	keznit	jett	263	15	14	10
+134565	729	Zellsis	killjoy	173	10	17	6
+134565	1294	NagZ	killjoy	158	11	9	3
+134571	4004	zekken	raze	177	13	18	4
+134571	3828	Tacolilla	jett	177	13	14	1
+134572	659	Sacy	skye	103	7	17	9
+134572	725	nzr	raze	226	12	11	10
+134574	7873	leaf	raze	227	15	16	3
+134574	24007	Shyy	killjoy	96	5	13	2
+134575	16003	runi	killjoy	160	12	17	2
+134575	7603	Mazino	harbor	138	10	17	9
+134576	7871	Xeppaa	raze	167	13	19	1
+134576	24007	Shyy	skye	146	14	14	6
+134577	7871	Xeppaa	killjoy	158	12	20	5
+134577	3828	Tacolilla	jett	200	17	19	4
+134578	7873	leaf	raze	161	9	19	3
+134578	3828	Tacolilla	chamber	144	10	12	3
+134566	2764	DaveeyS	chamber	140	10	7	1
+134566	7603	Mazino	astra	115	7	13	6
+134567	2610	Klaus	skye	111	8	17	6
+134567	24007	Shyy	killjoy	126	7	16	6
+134568	1294	NagZ	killjoy	153	11	13	5
+134568	3828	Tacolilla	jett	175	11	17	3
+134569	2764	DaveeyS	killjoy	148	13	15	0
+134569	7603	Mazino	omen	206	15	19	11
+137395	1427	Redgar	sova	125	10	18	8
+137395	109	ANGE1	omen	178	15	19	8
+137396	101	soulcas	skye	101	11	19	8
+137396	11	Zyppan	raze	193	21	25	4
+137398	804	BuZz	raze	156	15	24	6
+137398	2408	tuyz	omen	159	16	18	21
+137399	485	stax	skye	146	11	13	3
+137399	6193	cauanzin	skye	142	8	14	11
+137400	804	BuZz	jett	171	12	16	3
+137400	727	saadhak	breach	125	9	17	7
+137368	10125	qw1	jett	198	14	13	1
+137368	31207	Carpe	skye	89	5	17	3
+137369	3604	MOJJ	killjoy	221	15	13	4
+137369	4545	Sayaplayer	jett	168	10	19	2
+137365	604	Boostio	killjoy	137	10	12	3
+137365	7857	BerLIN	omen	88	5	18	7
+137366	604	Boostio	killjoy	87	6	14	3
+137366	7857	BerLIN	omen	145	10	16	7
+137401	109	ANGE1	brimstone	151	11	27	15
+137401	804	BuZz	raze	152	15	20	2
+137402	109	ANGE1	omen	148	10	15	15
+137402	488	Rb	killjoy	103	6	17	4
+137403	573	cNed	raze	147	13	19	2
+137403	772	Zest	viper	154	14	19	6
+137383	4	crashies	skye	199	18	20	7
+137383	4774	Knight	omen	186	17	23	7
+137384	261	Victor	raze	191	13	20	2
+137384	3024	rin	omen	131	10	12	10
+137380	438	Boaster	brimstone	194	12	11	8
+137380	1000	crow	breach	102	6	15	3
+137381	5022	Derke	jett	190	14	15	1
+137381	1395	TENNN	raze	178	12	19	3
+137371	26171	Demon1	jett	149	16	20	3
+137371	10125	qw1	jett	186	20	21	0
+137372	11225	Ethan	skye	185	12	16	18
+137372	6510	AtaKaptan	brimstone	183	12	17	12
+137350	9803	d4v41	viper	126	9	10	1
+137350	1294	NagZ	viper	120	7	16	8
+137351	9801	f0rsakeN	killjoy	158	9	14	8
+137351	2610	Klaus	skye	182	12	16	3
+137353	4742	Smoggy	jett	161	18	24	3
+137353	4181	Cloud	skye	162	16	21	10
+137354	4742	Smoggy	raze	128	9	20	3
+137354	10	rhyme	brimstone	150	12	17	9
+137355	4742	Smoggy	kayo	207	14	16	13
+137355	10	rhyme	omen	95	5	19	16
+137386	1380	Leo	sova	175	10	7	7
+137386	3024	rin	omen	96	4	14	3
+137387	438	Boaster	astra	120	9	11	9
+137387	4774	Knight	omen	117	9	15	5
+137404	9780	Jamppi	breach	121	7	13	1
+137404	727	saadhak	viper	194	8	9	8
+137405	457	nAts	viper	127	8	15	3
+137405	8480	aspas	raze	172	11	17	5
+137374	4880	nizhaoTZH	viper	141	11	16	7
+137374	31207	Carpe	fade	78	8	14	6
+137375	4880	nizhaoTZH	harbor	86	6	15	4
+137375	31207	Carpe	gekko	191	13	16	3
+137356	9803	d4v41	killjoy	172	12	13	4
+137356	3017	nobody	skye	93	5	15	6
+137357	17086	something	jett	152	16	20	3
+137357	3017	nobody	fade	148	13	22	9
+137359	2610	Klaus	skye	138	12	20	6
+137359	4181	Cloud	skye	141	12	14	15
+137360	1311	Melser	harbor	110	8	22	7
+137360	3070	nukkye	cypher	170	15	18	6
+137389	6668	SugarZ3ro	brimstone	123	17	17	7
+137389	4164	s0m	brimstone	124	21	16	12
+137390	6668	SugarZ3ro	astra	59	3	12	2
+137390	4	crashies	skye	166	8	9	10
+137407	384	Shao	astra	98	9	14	11
+137407	8480	aspas	jett	162	16	17	1
+137408	109	ANGE1	omen	99	8	20	8
+137408	8447	Less	killjoy	224	21	18	3
+137409	384	Shao	skye	96	7	15	10
+137409	6193	cauanzin	skye	117	6	21	11
+137377	10125	qw1	raze	202	16	17	5
+137377	474	xeta	viper	120	8	15	6
+137378	6510	AtaKaptan	brimstone	174	16	18	13
+137378	5129	ban	harbor	169	15	20	9
+137362	4720	Haodong	astra	88	7	10	9
+137362	3070	nukkye	cypher	87	4	17	4
+137363	3520	ZmjjKK	jett	206	15	17	3
+137363	292	Fit1nho	raze	88	5	20	4
+137392	3024	rin	brimstone	119	9	17	10
+137392	98	ardiis	chamber	149	11	20	5
+137393	3021	Biank	sova	109	6	12	4
+137393	4164	s0m	omen	87	5	14	5
+137618	438	Boaster	omen	132	10	17	10
+137618	727	saadhak	kayo	178	12	20	18
+137619	458	Chronicle	viper	98	4	14	5
+137619	727	saadhak	viper	154	10	12	2
+137621	9800	mindfreak	viper	122	11	10	3
+137621	6510	AtaKaptan	omen	125	9	18	8
+137622	9800	mindfreak	astra	113	8	9	4
+137622	1139	qRaxs	kayo	135	5	15	8
+137624	485	stax	fade	117	10	16	6
+137624	3024	rin	killjoy	156	13	15	2
+137625	488	Rb	killjoy	112	8	16	3
+137625	6022	Yosemite	killjoy	132	8	17	5
+137627	604	Boostio	chamber	148	12	21	3
+137627	3520	ZmjjKK	raze	221	21	19	6
+137628	619	C0M	sova	158	10	11	7
+137628	4720	Haodong	omen	122	8	15	7
+137629	3993	jawgemo	astra	130	8	11	10
+137629	3520	ZmjjKK	jett	141	8	17	4
+137644	438	Boaster	omen	147	9	11	7
+137644	10125	qw1	jett	94	6	15	0
+137645	438	Boaster	astra	144	11	13	7
+137645	10125	qw1	jett	147	12	19	0
+137647	3021	Biank	skye	90	5	16	3
+137647	3017	nobody	skye	79	5	10	6
+137648	3024	rin	omen	154	16	19	14
+137648	3520	ZmjjKK	raze	199	19	22	5
+137649	3024	rin	omen	93	6	17	11
+137649	4742	Smoggy	breach	146	14	17	5
+137630	727	saadhak	viper	228	20	24	12
+137630	9800	mindfreak	omen	131	13	19	8
+137631	8480	aspas	raze	209	12	8	0
+137631	7378	Jinggg	raze	159	8	13	2
+137632	8447	Less	killjoy	136	10	16	7
+137632	9800	mindfreak	astra	111	9	13	11
+137633	488	Rb	killjoy	101	7	17	2
+137633	3993	jawgemo	raze	182	14	15	4
+137634	4462	MaKo	omen	114	7	15	4
+137634	11225	Ethan	skye	190	12	10	7
+137653	727	saadhak	omen	143	10	20	9
+137653	4720	Haodong	brimstone	130	9	20	11
+137654	8480	aspas	jett	203	15	9	2
+137654	4720	Haodong	omen	103	5	15	13
+137655	2408	tuyz	harbor	122	9	17	9
+137655	3017	nobody	sova	149	10	18	9
+137650	804	BuZz	raze	188	8	9	5
+137650	1380	Leo	skye	78	4	12	4
+137651	485	stax	skye	112	10	17	1
+137651	458	Chronicle	breach	135	11	14	11
+137652	772	Zest	viper	104	6	18	5
+137652	9810	Alfajer	cypher	132	10	10	3
+137636	9803	d4v41	skye	135	9	16	13
+137636	26171	Demon1	jett	115	10	18	2
+137637	17086	something	reyna	131	8	14	8
+137637	604	Boostio	brimstone	94	7	17	6
+137638	17086	something	jett	171	16	21	5
+137638	604	Boostio	killjoy	157	13	24	9
+137656	458	Chronicle	breach	90	5	14	4
+137656	8480	aspas	raze	177	11	13	5
+137657	458	Chronicle	kayo	146	11	16	5
+137657	8447	Less	killjoy	105	6	17	2
+137658	458	Chronicle	breach	147	10	18	5
+137658	2408	tuyz	harbor	136	11	14	6
+137659	604	Boostio	killjoy	174	17	18	2
+137659	2408	tuyz	omen	156	16	17	14
+137660	619	C0M	viper	146	10	9	4
+137660	6193	cauanzin	fade	110	6	15	2
+137661	11225	Ethan	yoru	172	11	19	10
+137661	2408	tuyz	harbor	125	10	11	5
+137662	3993	jawgemo	raze	151	10	17	1
+137662	8447	Less	killjoy	108	7	16	2
+137663	619	C0M	viper	149	10	16	12
+137663	2408	tuyz	brimstone	163	10	14	16
+137639	7378	Jinggg	raze	208	13	20	6
+137639	619	C0M	viper	111	8	15	5
+137640	9800	mindfreak	viper	84	6	18	8
+137640	3993	jawgemo	omen	140	11	17	11
+137641	7378	Jinggg	raze	188	11	17	6
+137641	604	Boostio	brimstone	179	11	15	9
+137642	9800	mindfreak	omen	182	14	18	7
+137642	619	C0M	viper	118	9	13	8
+\.
+
+
+--
+-- TOC entry 3685 (class 0 OID 57371)
+-- Dependencies: 216
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.users (id, username, password) FROM stdin;
+1	jett	dash123
+2	sage	heal456
+3	phoenix	flash789
+\.
+
+
+--
+-- TOC entry 3692 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 3, true);
+
+
+--
+-- TOC entry 3532 (class 2606 OID 41006)
+-- Name: agentpickrates AgentPickRates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agentpickrates
+    ADD CONSTRAINT "AgentPickRates_pkey" PRIMARY KEY (map, agent);
+
+
+--
+-- TOC entry 3530 (class 2606 OID 40999)
+-- Name: mapstats MapStats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mapstats
+    ADD CONSTRAINT "MapStats_pkey" PRIMARY KEY (map);
+
+
+--
+-- TOC entry 3524 (class 2606 OID 32793)
+-- Name: matches Matches_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT "Matches_pkey" PRIMARY KEY (game_id, team);
+
+
+--
+-- TOC entry 3526 (class 2606 OID 32819)
+-- Name: playerstats PlayerStats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.playerstats
+    ADD CONSTRAINT "PlayerStats_pkey" PRIMARY KEY (game_id, player_id);
+
+
+--
+-- TOC entry 3528 (class 2606 OID 40992)
+-- Name: players Players_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT "Players_pkey" PRIMARY KEY (player);
+
+
+--
+-- TOC entry 3534 (class 2606 OID 49186)
+-- Name: communityvotes communityvotes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.communityvotes
+    ADD CONSTRAINT communityvotes_pkey PRIMARY KEY (user_id);
+
+
+--
+-- TOC entry 3536 (class 2606 OID 57376)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3538 (class 2606 OID 57378)
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+-- Completed on 2025-05-05 23:08:04 PDT
+
+--
+-- PostgreSQL database dump complete
+--
+
