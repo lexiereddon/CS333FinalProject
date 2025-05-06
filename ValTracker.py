@@ -18,7 +18,7 @@ with psycopg.connect(
     )as conn:
     database_manager = DatabaseManager(conn)
     with conn.cursor() as cur:
-
+        print("This represents a change to ValTracker.")
         print("Welcome to ValTracker!  \nWe have recorded all statistics about the Valorant 2023 Champions Tournament. \n")
 
         login_manager = LoginManager(cur)
