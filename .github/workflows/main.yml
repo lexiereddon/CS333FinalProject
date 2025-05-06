@@ -10,12 +10,28 @@ jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: testuser
       DB_PASSWORD: testpassword
       DB_NAME: testdb
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
