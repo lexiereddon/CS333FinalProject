@@ -7,7 +7,7 @@ from statsCompare import StatsCompare
 
 class test_integration(unittest.TestCase):
     def setUp(self):
-        self.conn = psycopg.connect("host=localhost port=5432 dbname=valorantProPlay")
+        self.conn = psycopg.connect("host=localhost port=5432 dbname=valorantProPlay user=postgres password=postgres")
         self.db_manager = DatabaseManager(self.conn)
         self.cur = self.conn.cursor()
         self.login_manager = LoginManager(self.cur)
