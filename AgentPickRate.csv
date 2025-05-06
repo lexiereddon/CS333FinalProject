@@ -1,0 +1,185 @@
+Map,Agent,Pick Rate
+All Maps,omen,0.67
+All Maps,skye,0.58
+All Maps,raze,0.58
+All Maps,breach,0.58
+All Maps,killjoy,0.58
+All Maps,jett,0.42
+All Maps,viper,0.33
+All Maps,sova,0.25
+All Maps,astra,0.17
+All Maps,brimstone,0.17
+All Maps,cypher,0.17
+All Maps,fade,0.17
+All Maps,sage,0.08
+All Maps,kayo,0.08
+All Maps,yoru,0.08
+All Maps,harbor,0.08
+All Maps,neon,0.0
+All Maps,phoenix,0.0
+All Maps,iso,0.0
+All Maps,reyna,0.0
+All Maps,gekko,0.0
+All Maps,deadlock,0.0
+All Maps,chamber,0.0
+Haven,omen,1.0
+Haven,skye,0.25
+Haven,raze,0.5
+Haven,breach,0.75
+Haven,killjoy,0.75
+Haven,jett,0.5
+Haven,viper,0.25
+Haven,sova,0.5
+Haven,astra,0.0
+Haven,brimstone,0.0
+Haven,cypher,0.0
+Haven,fade,0.25
+Haven,sage,0.0
+Haven,kayo,0.0
+Haven,yoru,0.0
+Haven,harbor,0.25
+Haven,neon,0.0
+Haven,phoenix,0.0
+Haven,iso,0.0
+Haven,reyna,0.0
+Haven,gekko,0.0
+Haven,deadlock,0.0
+Haven,chamber,0.0
+Bind,omen,0.5
+Bind,skye,1.0
+Bind,raze,1.0
+Bind,breach,0.5
+Bind,killjoy,0.0
+Bind,jett,0.0
+Bind,viper,1.0
+Bind,sova,0.0
+Bind,astra,0.0
+Bind,brimstone,0.5
+Bind,cypher,0.0
+Bind,fade,0.0
+Bind,sage,0.5
+Bind,kayo,0.0
+Bind,yoru,0.0
+Bind,harbor,0.0
+Bind,neon,0.0
+Bind,phoenix,0.0
+Bind,iso,0.0
+Bind,reyna,0.0
+Bind,gekko,0.0
+Bind,deadlock,0.0
+Bind,chamber,0.0
+Fracture,omen,0.5
+Fracture,skye,1.0
+Fracture,raze,1.0
+Fracture,breach,0.5
+Fracture,killjoy,0.0
+Fracture,jett,0.0
+Fracture,viper,0.5
+Fracture,sova,0.0
+Fracture,astra,0.0
+Fracture,brimstone,0.5
+Fracture,cypher,1.0
+Fracture,fade,0.0
+Fracture,sage,0.0
+Fracture,kayo,0.0
+Fracture,yoru,0.0
+Fracture,harbor,0.0
+Fracture,neon,0.0
+Fracture,phoenix,0.0
+Fracture,iso,0.0
+Fracture,reyna,0.0
+Fracture,gekko,0.0
+Fracture,deadlock,0.0
+Fracture,chamber,0.0
+Lotus,omen,1.0
+Lotus,skye,0.5
+Lotus,raze,0.5
+Lotus,breach,1.0
+Lotus,killjoy,1.0
+Lotus,jett,0.5
+Lotus,viper,0.0
+Lotus,sova,0.5
+Lotus,astra,0.0
+Lotus,brimstone,0.0
+Lotus,cypher,0.0
+Lotus,fade,0.0
+Lotus,sage,0.0
+Lotus,kayo,0.0
+Lotus,yoru,0.0
+Lotus,harbor,0.0
+Lotus,neon,0.0
+Lotus,phoenix,0.0
+Lotus,iso,0.0
+Lotus,reyna,0.0
+Lotus,gekko,0.0
+Lotus,deadlock,0.0
+Lotus,chamber,0.0
+Pearl,omen,0.0
+Pearl,skye,0.5
+Pearl,raze,0.0
+Pearl,breach,0.0
+Pearl,killjoy,1.0
+Pearl,jett,1.0
+Pearl,viper,0.0
+Pearl,sova,0.0
+Pearl,astra,1.0
+Pearl,brimstone,0.0
+Pearl,cypher,0.0
+Pearl,fade,0.5
+Pearl,sage,0.0
+Pearl,kayo,0.5
+Pearl,yoru,0.5
+Pearl,harbor,0.0
+Pearl,neon,0.0
+Pearl,phoenix,0.0
+Pearl,iso,0.0
+Pearl,reyna,0.0
+Pearl,gekko,0.0
+Pearl,deadlock,0.0
+Pearl,chamber,0.0
+Split,skye,0.75
+Split,raze,1.0
+Split,cypher,0.75
+Split,astra,0.25
+Split,breach,0.5
+Split,omen,0.75
+Split,viper,0.25
+Split,sova,0.0
+Split,jett,0.25
+Split,killjoy,0.0
+Split,brimstone,0.0
+Split,fade,0.25
+Split,harbor,0.0
+Split,sage,0.25
+Split,neon,0.0
+Split,phoenix,0.0
+Split,kayo,0.0
+Split,reyna,0.0
+Split,iso,0.0
+Split,gekko,0.0
+Split,deadlock,0.0
+Split,chamber,0.0
+Split,yoru,0.0
+Ascent,sova,0.5
+Ascent,killjoy,0.5
+Ascent,omen,1.0
+Ascent,breach,0.5
+Ascent,astra,0.0
+Ascent,jett,0.5
+Ascent,raze,0.5
+Ascent,kayo,0.5
+Ascent,harbor,0.0
+Ascent,fade,0.5
+Ascent,neon,0.0
+Ascent,cypher,0.0
+Ascent,phoenix,0.0
+Ascent,sage,0.5
+Ascent,skye,0.0
+Ascent,brimstone,0.0
+Ascent,iso,0.0
+Ascent,gekko,0.0
+Ascent,deadlock,0.0
+Ascent,chamber,0.0
+Ascent,reyna,0.0
+Ascent,viper,0.0
+Ascent,yoru,0.0
