@@ -9,7 +9,7 @@ from databaseManager import DatabaseManager
 
 #connect to database
 
-with psycopg.connect("host=localhost port=5432 dbname=valorantProPlay") as conn:
+with psycopg.connect("host=localhost port=5432 dbname=valorantProPlay user=postgres password=postgres") as conn:
     database_manager = DatabaseManager(conn)
     with conn.cursor() as cur:
 
