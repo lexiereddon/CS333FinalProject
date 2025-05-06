@@ -52,7 +52,7 @@ jobs:
           done
       - name: Load schema into test database
         run: |
-          psql -h localhost -U $DB_USER -d $DB_NAME -f db/valorantProPlaySchema2
+          psql -h localhost -U $DB_USER -d $DB_NAME -f db/valorantProPlay3
         env:
           PGPASSWORD: ${{ env.DB_PASSWORD }}
 
