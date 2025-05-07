@@ -20,6 +20,7 @@ with psycopg.connect(
     with conn.cursor() as cur:
         print("This is ValTracker 2.0.")
         print("Welcome to ValTracker!  \nWe have recorded all statistics about the Valorant 2023 Champions Tournament. \n")
+        print("Please expect updates for newer tournaments soon.")
 
         login_manager = LoginManager(cur)
         stats_compare = StatsCompare()
